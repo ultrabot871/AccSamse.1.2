@@ -1,0 +1,16 @@
+﻿cat > .gitignore << 'EOF'
+# Visual Studio / .NET
+.vs/
+.vscode/
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.vsidx
+*.db
+# Paquetes/otros opcionales
+packages/
+TestResults/
+EOF
