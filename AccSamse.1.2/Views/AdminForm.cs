@@ -1,4 +1,5 @@
-﻿using AccSamse._1._2.Models;  // 👈 para usar ConexionDataBase
+﻿using AccSamse._1._2.Controllers;
+using AccSamse._1._2.Models;  // 👈 para usar ConexionDataBase
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,24 +16,28 @@ namespace AccSamse._1._2.Views
 {
     public partial class AdminForm : Form
     {
+        // Controller para usuarios
+        private readonly UsersController _users = new UsersController();
+
         public AdminForm()
         {
             InitializeComponent();
-            
+            // Para que el grid genere columnas automáticamente
+            gridAdmin.AutoGenerateColumns = true;
         }
 
         private void ADMIN_Enter(object sender, EventArgs e)
         {
-            // 👇 Solo llamar la conexión
+            // Si necesitas probar conexión (opcional)
             SqlConnection conn = ConexionDataBase.GetConnection();
+            ConexionDataBase.CloseConnection();
         }
 
         private void GestorClient_Click(object sender, EventArgs e)
         {
             GestionClientForm form = new GestionClientForm();
-            form.Show();   // abre nuevo form
-            this.Hide(); 
-
+            form.Show();
+            this.Hide();
         }
 
         private void btnUpdateInventory_Click(object sender, EventArgs e)
@@ -48,182 +53,194 @@ namespace AccSamse._1._2.Views
             form.Show();
             this.Hide();
         }
-        
 
+        // ================== CRUD USUARIOS ==================
+
+        // AGREGAR
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                SqlConnection conn = ConexionDataBase.GetConnection();
+                // Validaciones básicas (ajusta a tu gusto)
+                if (string.IsNullOrWhiteSpace(nombreEmployeers.Text) ||
+                    string.IsNullOrWhiteSpace(lastEmployeers.Text) ||
+                    string.IsNullOrWhiteSpace(EmailEmpleado.Text) ||
+                    string.IsNullOrWhiteSpace(idempleado.Text))
+                {
+                    MessageBox.Show("Completa al menos: Nombre, Apellido, Email y Documento.");
+                    return;
+                }
 
-                string query = "INSERT INTO Users (Id_User, Name, Last_Name, Email, Password, Phone, Rol, Status) " +
-                               "VALUES (@Id_User, @Name, @Last_Name, @Email,@Password, @Phone, @Rol, @Status)";
+                User u = new User();
+                // Id_person NO se envía en CREATE si es IDENTITY en la BD
+                u.Name = nombreEmployeers.Text;
+                u.Last_Name = lastEmployeers.Text;
+                u.Email = EmailEmpleado.Text;
+                u.Document = idempleado.Text;
+                u.Phone = PhoneEmpleado.Text;
+                u.Role = RoleUser.Text;
+                u.Password = PasswordEmployeers.Text;
+                u.State = "Activo";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Id_User", idempleado.Text);
-                cmd.Parameters.AddWithValue("@Name", nombreEmployeers.Text);
-                cmd.Parameters.AddWithValue("@Last_Name", lastEmployeers.Text);
-                cmd.Parameters.AddWithValue("@Email", EmailEmpleado.Text);
-                cmd.Parameters.AddWithValue("@Phone", PhoneEmpleado.Text);
-                cmd.Parameters.AddWithValue("@Rol", RoleUser.Text);
-                cmd.Parameters.AddWithValue("@Password", PasswordEmployeers.Text);
-                cmd.Parameters.AddWithValue("@Status", 1); // 1 = Activo por defecto
+                bool ok = _users.Create(u);
+                MessageBox.Show(ok ? "✅ Usuario agregado" : "❌ No se pudo agregar");
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("✅ Empleado agregado correctamente");
-
-                ConexionDataBase.CloseConnection();
+                if (ok) CargarUsuariosEnGrid();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Error al agregar empleado: " + ex.Message);
+                MessageBox.Show("Error al agregar: " + ex.Message);
             }
         }
 
+        // EDITAR
         private void btnEdit_Click(object sender, EventArgs e)
         {
             try
             {
-                SqlConnection conn = ConexionDataBase.GetConnection();
+                int id;
+                if (!int.TryParse(idempleado.Text, out id))
+                {
+                    MessageBox.Show("ID inválido.");
+                    return;
+                }
 
-                // 🔹 Consulta SQL para actualizar al usuario
-                string query = "UPDATE Users SET " +
-                               "Name=@Name, " +
-                               "Last_Name=@Last_Name, " +
-                               "Email=@Email, " +
-                               "Password=@Password, " +
-                               "Phone=@Phone, " +
-                               "Rol=@Rol, " +
-                               "Status=@Status " +
-                               "WHERE Id_User=@Id_User";
+                User u = new User();
+                u.Id_person = id;                     // ⬅️ propiedad según tu modelo
+                u.Name = nombreEmployeers.Text;
+                u.Last_Name = lastEmployeers.Text;
+                u.Email = EmailEmpleado.Text;
+                u.Document = idempleado.Text;
+                u.Phone = PhoneEmpleado.Text;
+                u.Role = RoleUser.Text;
+                u.Password = PasswordEmployeers.Text;
+                u.State = "Activo";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                // 🔹 Asignamos los parámetros (igual que en Add, pero ahora sí usamos Id_User)
-                cmd.Parameters.AddWithValue("@Id_User", Convert.ToInt32(idempleado.Text));
-                cmd.Parameters.AddWithValue("@Name", nombreEmployeers.Text);
-                cmd.Parameters.AddWithValue("@Last_Name", lastEmployeers.Text);
-                cmd.Parameters.AddWithValue("@Email", EmailEmpleado.Text);
-                cmd.Parameters.AddWithValue("@Password", PasswordEmployeers.Text);
-                cmd.Parameters.AddWithValue("@Phone", PhoneEmpleado.Text);
-                cmd.Parameters.AddWithValue("@Rol", RoleUser.Text);
-                cmd.Parameters.AddWithValue("@Status", 1); // 1 = Activo por defecto
-
-                // 🔹 Ejecutar actualización
-                int rows = cmd.ExecuteNonQuery();
-                if (rows > 0)
-                    MessageBox.Show("✅ Usuario actualizado correctamente");
-                else
-                    MessageBox.Show("⚠ No se encontró el usuario con ese ID");
-
-                ConexionDataBase.CloseConnection();
+                bool ok = _users.Update(u);
+                MessageBox.Show(ok ? "✅ Usuario actualizado" : "⚠ No se actualizó");
+                if (ok) CargarUsuariosEnGrid();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Error al editar usuario: " + ex.Message);
+                MessageBox.Show("Error al editar: " + ex.Message);
             }
         }
 
+        // ELIMINAR
         private void btnDelete_Click(object sender, EventArgs e)
         {
             try
             {
-                SqlConnection conn = ConexionDataBase.GetConnection();
+                int id;
+                if (!int.TryParse(idempleado.Text, out id))
+                {
+                    MessageBox.Show("ID inválido.");
+                    return;
+                }
 
-                // 🔹 Consulta SQL para eliminar usuario
-                string query = "DELETE FROM Users WHERE Id_User=@Id_User";
+                var confirmar = MessageBox.Show(
+                    "¿Eliminar este usuario?",
+                    "Confirmación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                if (confirmar != DialogResult.Yes) return;
 
-                // 🔹 Asignamos el parámetro (necesitamos el ID del usuario)
-                cmd.Parameters.AddWithValue("@Id_User", Convert.ToInt32(idempleado.Text));
-
-                // 🔹 Ejecutar eliminación
-                int rows = cmd.ExecuteNonQuery();
-                if (rows > 0)
-                    MessageBox.Show("✅ Usuario eliminado correctamente");
-                else
-                    MessageBox.Show("⚠ No se encontró el usuario con ese ID");
-
-                ConexionDataBase.CloseConnection();
+                bool ok = _users.Delete(id);
+                MessageBox.Show(ok ? "✅ Usuario eliminado" : "⚠ No se encontró el usuario");
+                if (ok) LimpiarFormulario();
+                if (ok) CargarUsuariosEnGrid();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Error al eliminar usuario: " + ex.Message);
+                MessageBox.Show("Error al eliminar: " + ex.Message);
             }
         }
 
+        // BUSCAR POR ID
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                SqlConnection conn = ConexionDataBase.GetConnection();
-
-                // 🔹 Consulta SQL para buscar usuario por Id_User
-                string query = "SELECT Id_User, Name, Last_Name, Email, Password, Phone, Rol, Status " +
-                               "FROM Users WHERE Id_User = @Id_User";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                // 🔹 Tomamos el valor del cuadro de búsqueda
-                cmd.Parameters.AddWithValue("@Id_User", Convert.ToInt32(BuscarEmployeers.Text));
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                int id;
+                if (!int.TryParse(BuscarEmployeers.Text, out id))
                 {
-                    // 🔹 Llenamos los campos del formulario con los datos encontrados
-                    idempleado.Text = reader["Id_User"].ToString();
-                    nombreEmployeers.Text = reader["Name"].ToString();
-                    lastEmployeers.Text = reader["Last_Name"].ToString();
-                    EmailEmpleado.Text = reader["Email"].ToString();
-                    PasswordEmployeers.Text = reader["Password"].ToString();
-                    PhoneEmpleado.Text = reader["Phone"].ToString();
-                    RoleUser.Text = reader["Rol"].ToString();
-
-                    MessageBox.Show("✅ Usuario encontrado");
-                }
-                else
-                {
-                    MessageBox.Show("⚠ No se encontró ningún usuario con ese ID");
+                    MessageBox.Show("ID de búsqueda inválido.");
+                    return;
                 }
 
-                reader.Close();
-                ConexionDataBase.CloseConnection();
+                User u = _users.GetById(id);
+                if (u == null)
+                {
+                    MessageBox.Show("⚠ No se encontró el usuario");
+                    return;
+                }
+
+                // Llenar los campos
+                idempleado.Text = u.Id_person.ToString();
+                nombreEmployeers.Text = u.Name;
+                lastEmployeers.Text = u.Last_Name;
+                EmailEmpleado.Text = u.Email;
+                idempleado.Text = u.Document;
+                PhoneEmpleado.Text = u.Phone;
+                RoleUser.Text = u.Role;
+                PasswordEmployeers.Text = u.Password;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Error en la búsqueda: " + ex.Message);
+                MessageBox.Show("Error en la búsqueda: " + ex.Message);
             }
         }
 
+        // LISTAR
         private void button2_Click(object sender, EventArgs e)
+        {
+            CargarUsuariosEnGrid();
+        }
+
+        // ================== UTILIDADES ==================
+        private void CargarUsuariosEnGrid()
         {
             try
             {
-                SqlConnection conn = ConexionDataBase.GetConnection();
-
-                string query = "SELECT Id_User, Name, Last_Name, Email, Phone, Rol, Status FROM Users";
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                // 👇 Mostrar los datos en el DataGridView
-                gridAdmin.DataSource = dt;
-
-                ConexionDataBase.CloseConnection();
+                List<User> data = _users.GetAll();
+                gridAdmin.DataSource = null; // refresco seguro
+                gridAdmin.DataSource = data;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("❌ Error al cargar usuarios: " + ex.Message);
+                MessageBox.Show("Error al cargar usuarios: " + ex.Message);
             }
         }
-        
+
+        private void LimpiarFormulario()
+        {
+            idempleado.Clear();
+            nombreEmployeers.Clear();
+            lastEmployeers.Clear();
+            EmailEmpleado.Clear();
+            PasswordEmployeers.Clear();
+            PhoneEmpleado.Clear();
+            RoleUser.Text = "";
+            idempleado.Clear();
+            BuscarEmployeers.Clear();
+        }
+
         private void gridAdmin_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Opcional: si quieres que al hacer clic en una fila se llenen los TextBox:
+            if (e.RowIndex >= 0 && gridAdmin.DataSource is List<User>)
+            {
+                User u = (User)gridAdmin.Rows[e.RowIndex].DataBoundItem;
+                idempleado.Text = u.Id_person.ToString();
+                nombreEmployeers.Text = u.Name;
+                lastEmployeers.Text = u.Last_Name;
+                EmailEmpleado.Text = u.Email;
+                idempleado.Text = u.Document;
+                PhoneEmpleado.Text = u.Phone;
+                RoleUser.Text = u.Role;
+                PasswordEmployeers.Text = u.Password;
+            }
         }
     }
 }

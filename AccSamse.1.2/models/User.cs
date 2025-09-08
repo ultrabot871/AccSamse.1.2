@@ -28,7 +28,7 @@ namespace AccSamse._1._2.Models
             this.password = password;
             this.state = state;
         }
-
+        public User() { }
         public string Role { get => role; set => role = value; }
         public string Password { get => password; set => password = value; }
         public string State { get => state; set => state = value; }

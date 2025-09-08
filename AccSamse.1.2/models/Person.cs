@@ -25,6 +25,8 @@ namespace AccSamse._1._2.Models
             this.document = document;
             this.phone = phone;
         }
+       
+        public Person() { }
 
         public int Id_person { get => id_person; set => id_person = value; }
         public string Name { get => name; set => name = value; }

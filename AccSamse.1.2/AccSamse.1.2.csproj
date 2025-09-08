@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="controllers\EmployeersController.cs" />
     <Compile Include="controllers\SalesController.cs" />
     <Compile Include="controllers\UsersController.cs" />
     <Compile Include="models\ConexionDataBase.cs" />
