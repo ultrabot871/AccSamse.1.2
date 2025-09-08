@@ -1,4 +1,12 @@
-BD
+# 📌 Base de Datos `AccSamseDb.1.2`
+
+Este proyecto contiene la definición de la base de datos **AccSamseDb.1.2** y la tabla principal de usuarios.
+
+---
+
+## ⚙️ Creación de la Base de Datos
+
+```sql
 -- Crear base de datos (el nombre tiene punto, por eso va entre corchetes)
 IF DB_ID(N'AccSamseDb.1.2') IS NULL
     CREATE DATABASE [AccSamseDb.1.2];
@@ -7,7 +15,6 @@ GO
 USE [AccSamseDb.1.2];
 GO
 
--- Crear tabla usuarios
 IF OBJECT_ID(N'dbo.usuarios', N'U') IS NOT NULL
     DROP TABLE dbo.usuarios;
 GO
@@ -27,7 +34,7 @@ CREATE TABLE dbo.usuarios
 );
 GO
 
--- Índices/Restricciones útiles
+
 ALTER TABLE dbo.usuarios ADD CONSTRAINT UQ_usuarios_email    UNIQUE (email);
 ALTER TABLE dbo.usuarios ADD CONSTRAINT UQ_usuarios_document UNIQUE (document);
 GO
