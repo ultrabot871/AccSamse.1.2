@@ -29,8 +29,8 @@ CREATE TABLE dbo.usuarios
     phone       NVARCHAR(30)      NULL,
 
     role        NVARCHAR(50)      NOT NULL,
-    [password]  NVARCHAR(256)     NOT NULL,               -- sugerido para hash
-    [state]     NVARCHAR(20)      NOT NULL                -- ej. 'Activo'/'Inactivo'
+    [password]  NVARCHAR(256)     NOT NULL,              
+    [state]     NVARCHAR(20)      NOT NULL                
 );
 GO
 
