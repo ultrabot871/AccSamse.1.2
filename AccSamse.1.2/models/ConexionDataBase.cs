@@ -6,25 +6,34 @@ namespace AccSamse._1._2.Models
 {
     public static class ConexionDataBase
     {
-        // 🔹 Conexión estática global
+        // Conexión estática global
         private static SqlConnection _conexion;
 
-        // 🔹 Cadena de conexión (puedes moverla a App.config después)
+        // Cadena de conexión
         private static readonly string cadenaConexion =
-            "Data Source=SANTIAGO\\SANTIAGO;Initial Catalog=AccSamseDb.1.2;Integrated Security=True";
+            "Data Source=KEXXX\\SQLEXPRESS;" +
+            "Initial Catalog=AccSamseDb.1.2;" +
+            "Integrated Security=True";
 
-        // 🔹 Método global para obtener la conexión
+        // Método global para obtener la conexión
         public static SqlConnection GetConnection()
         {
             if (_conexion == null)
             {
                 _conexion = new SqlConnection(cadenaConexion);
-                System.Windows.Forms.MessageBox.Show("conexion exitosa");
+                    /*System.
+                    Windows.
+                    Forms.
+                    MessageBox.
+                    Show("conexion exitosa");*/
 
             }
 
 
-            if (_conexion.State == System.Data.ConnectionState.Closed)
+            if (_conexion.State == 
+                System.Data.
+                ConnectionState.
+                Closed)
             {
                 _conexion.Open();
                 
@@ -34,10 +43,11 @@ namespace AccSamse._1._2.Models
             return _conexion;
         }
 
-        // 🔹 Método global para cerrar conexión
+        // Método global para cerrar conexión
         public static void CloseConnection()
         {
-            if (_conexion != null && _conexion.State == System.Data.ConnectionState.Open)
+            if (_conexion != null && _conexion.State == 
+                System.Data.ConnectionState.Open)
                 _conexion.Close();
         }
     }

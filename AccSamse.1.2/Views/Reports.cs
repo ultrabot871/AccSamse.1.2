@@ -16,5 +16,12 @@ namespace AccSamse._1._2.Views
         {
             InitializeComponent();
         }
+
+        private void btnReportsExit_Click(object sender, EventArgs e)
+        {
+            AdminForm form = new AdminForm();
+            form.Show();
+            this.Hide();
+        }
     }
 }

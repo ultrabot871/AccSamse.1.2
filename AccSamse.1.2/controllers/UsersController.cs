@@ -39,8 +39,10 @@ namespace AccSamse._1._2.Controllers
             {
                 string sql =
                     "INSERT INTO dbo.usuarios " +
-                    "(name, last_Name, email, document, phone, role, [password], [state]) " +
-                    "VALUES (@name, @last, @mail, @doc, @phone, @role, @pwd, @state)";
+                    "(name, last_Name, email, document, " +
+                    "phone, role, [password], [state]) " +
+                    "VALUES (@name, @last, @mail, @doc, " +
+                    "@phone, @role, @pwd, @state)";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -50,7 +52,7 @@ namespace AccSamse._1._2.Controllers
                     cmd.Parameters.AddWithValue("@doc", u.Document);
                     cmd.Parameters.AddWithValue("@phone", (object)u.Phone ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@role", u.Role);
-                    cmd.Parameters.AddWithValue("@pwd", u.Password); // ideal: hash
+                    cmd.Parameters.AddWithValue("@pwd", u.Password); 
                     cmd.Parameters.AddWithValue("@state", u.State);
 
                     int rows = cmd.ExecuteNonQuery();
@@ -72,7 +74,8 @@ namespace AccSamse._1._2.Controllers
             try
             {
                 string sql =
-                    "SELECT id_person, name, last_Name, email, document, phone, role, [password], [state] " +
+                    "SELECT id_person, name, last_Name, email, " +
+                    "document, phone, role, [password], [state] " +
                     "FROM dbo.usuarios";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -102,7 +105,8 @@ namespace AccSamse._1._2.Controllers
             try
             {
                 string sql =
-                    "SELECT id_person, name, last_Name, email, document, phone, role, [password], [state] " +
+                    "SELECT id_person, name, last_Name, " +
+                    "email, document, phone, role, [password], [state] " +
                     "FROM dbo.usuarios WHERE document=@doc";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -182,7 +186,7 @@ namespace AccSamse._1._2.Controllers
             }
         }
 
-        // ===== (Opcional) READ BY EMAIL =====
+        // ===== READ BY EMAIL =====
         public User GetByEmail(string email)
         {
             SqlConnection conn = ConexionDataBase.GetConnection();
@@ -190,7 +194,8 @@ namespace AccSamse._1._2.Controllers
             try
             {
                 string sql =
-                    "SELECT id_person, name, last_Name, email, document, phone, role, [password], [state] " +
+                    "SELECT id_person, name, last_Name, email, " +
+                    "document, phone, role, [password], [state] " +
                     "FROM dbo.usuarios WHERE email=@mail";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))

@@ -70,8 +70,10 @@
             this.ADMIN.Controls.Add(this.btnAdd);
             this.ADMIN.Controls.Add(this.grpManageArea);
             this.ADMIN.Location = new System.Drawing.Point(1, -1);
+            this.ADMIN.Margin = new System.Windows.Forms.Padding(2);
             this.ADMIN.Name = "ADMIN";
-            this.ADMIN.Size = new System.Drawing.Size(1590, 937);
+            this.ADMIN.Padding = new System.Windows.Forms.Padding(2);
+            this.ADMIN.Size = new System.Drawing.Size(1060, 609);
             this.ADMIN.TabIndex = 2;
             this.ADMIN.TabStop = false;
             this.ADMIN.Text = "GestionClients";
@@ -80,19 +82,23 @@
             // 
             this.btnExit.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.Location = new System.Drawing.Point(1382, 849);
+            this.btnExit.Location = new System.Drawing.Point(921, 552);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(159, 51);
+            this.btnExit.Size = new System.Drawing.Size(106, 33);
             this.btnExit.TabIndex = 8;
             this.btnExit.Text = "EXIT";
             this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // grpList
             // 
             this.grpList.Controls.Add(this.gridAdmin);
-            this.grpList.Location = new System.Drawing.Point(31, 394);
+            this.grpList.Location = new System.Drawing.Point(21, 256);
+            this.grpList.Margin = new System.Windows.Forms.Padding(2);
             this.grpList.Name = "grpList";
-            this.grpList.Size = new System.Drawing.Size(1472, 434);
+            this.grpList.Padding = new System.Windows.Forms.Padding(2);
+            this.grpList.Size = new System.Drawing.Size(981, 282);
             this.grpList.TabIndex = 4;
             this.grpList.TabStop = false;
             this.grpList.Text = "List";
@@ -113,7 +119,8 @@
             this.Column4});
             this.gridAdmin.EnableHeadersVisualStyles = false;
             this.gridAdmin.GridColor = System.Drawing.Color.Black;
-            this.gridAdmin.Location = new System.Drawing.Point(28, 35);
+            this.gridAdmin.Location = new System.Drawing.Point(19, 23);
+            this.gridAdmin.Margin = new System.Windows.Forms.Padding(2);
             this.gridAdmin.Name = "gridAdmin";
             this.gridAdmin.ReadOnly = true;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -128,7 +135,7 @@
             this.gridAdmin.RowHeadersWidth = 62;
             this.gridAdmin.RowTemplate.Height = 28;
             this.gridAdmin.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAdmin.Size = new System.Drawing.Size(1394, 368);
+            this.gridAdmin.Size = new System.Drawing.Size(929, 239);
             this.gridAdmin.TabIndex = 0;
             // 
             // Column1
@@ -163,9 +170,10 @@
             // 
             this.btnEdit.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Location = new System.Drawing.Point(672, 337);
+            this.btnEdit.Location = new System.Drawing.Point(448, 219);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(2);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(159, 51);
+            this.btnEdit.Size = new System.Drawing.Size(106, 33);
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -174,9 +182,10 @@
             // 
             this.btnDelete.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Location = new System.Drawing.Point(1146, 337);
+            this.btnDelete.Location = new System.Drawing.Point(764, 219);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(159, 51);
+            this.btnDelete.Size = new System.Drawing.Size(106, 33);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -185,9 +194,10 @@
             // 
             this.btnAdd.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Location = new System.Drawing.Point(271, 337);
+            this.btnAdd.Location = new System.Drawing.Point(181, 219);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(159, 51);
+            this.btnAdd.Size = new System.Drawing.Size(106, 33);
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -207,90 +217,103 @@
             this.grpManageArea.Controls.Add(this.button1);
             this.grpManageArea.Controls.Add(this.BuscarClient);
             this.grpManageArea.Controls.Add(this.SearchClient);
-            this.grpManageArea.Location = new System.Drawing.Point(31, 51);
+            this.grpManageArea.Location = new System.Drawing.Point(21, 33);
+            this.grpManageArea.Margin = new System.Windows.Forms.Padding(2);
             this.grpManageArea.Name = "grpManageArea";
-            this.grpManageArea.Size = new System.Drawing.Size(1490, 248);
+            this.grpManageArea.Padding = new System.Windows.Forms.Padding(2);
+            this.grpManageArea.Size = new System.Drawing.Size(993, 161);
             this.grpManageArea.TabIndex = 0;
             this.grpManageArea.TabStop = false;
             this.grpManageArea.Text = "Manage area";
+            this.grpManageArea.Enter += new System.EventHandler(this.grpManageArea_Enter);
             // 
             // PhoneClient
             // 
-            this.PhoneClient.Location = new System.Drawing.Point(660, 163);
+            this.PhoneClient.Location = new System.Drawing.Point(440, 106);
+            this.PhoneClient.Margin = new System.Windows.Forms.Padding(2);
             this.PhoneClient.Name = "PhoneClient";
-            this.PhoneClient.Size = new System.Drawing.Size(193, 26);
+            this.PhoneClient.Size = new System.Drawing.Size(130, 20);
             this.PhoneClient.TabIndex = 19;
             // 
             // phone
             // 
             this.phone.AutoSize = true;
-            this.phone.Location = new System.Drawing.Point(554, 166);
+            this.phone.Location = new System.Drawing.Point(369, 108);
+            this.phone.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.phone.Name = "phone";
-            this.phone.Size = new System.Drawing.Size(59, 20);
+            this.phone.Size = new System.Drawing.Size(41, 13);
             this.phone.TabIndex = 18;
             this.phone.Text = "Phone:";
             // 
             // EmailClient
             // 
-            this.EmailClient.Location = new System.Drawing.Point(139, 169);
+            this.EmailClient.Location = new System.Drawing.Point(93, 110);
+            this.EmailClient.Margin = new System.Windows.Forms.Padding(2);
             this.EmailClient.Name = "EmailClient";
-            this.EmailClient.Size = new System.Drawing.Size(193, 26);
+            this.EmailClient.Size = new System.Drawing.Size(130, 20);
             this.EmailClient.TabIndex = 17;
             // 
             // Email
             // 
             this.Email.AutoSize = true;
-            this.Email.Location = new System.Drawing.Point(24, 169);
+            this.Email.Location = new System.Drawing.Point(16, 110);
+            this.Email.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Email.Name = "Email";
-            this.Email.Size = new System.Drawing.Size(52, 20);
+            this.Email.Size = new System.Drawing.Size(35, 13);
             this.Email.TabIndex = 16;
             this.Email.Text = "Email:";
             // 
             // last
             // 
-            this.last.Location = new System.Drawing.Point(1177, 103);
+            this.last.Location = new System.Drawing.Point(785, 67);
+            this.last.Margin = new System.Windows.Forms.Padding(2);
             this.last.Name = "last";
-            this.last.Size = new System.Drawing.Size(193, 26);
+            this.last.Size = new System.Drawing.Size(130, 20);
             this.last.TabIndex = 15;
             // 
             // LastName
             // 
             this.LastName.AutoSize = true;
-            this.LastName.Location = new System.Drawing.Point(1051, 106);
+            this.LastName.Location = new System.Drawing.Point(701, 69);
+            this.LastName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LastName.Name = "LastName";
-            this.LastName.Size = new System.Drawing.Size(90, 20);
+            this.LastName.Size = new System.Drawing.Size(61, 13);
             this.LastName.TabIndex = 14;
             this.LastName.Text = "Last Name:";
             // 
             // nombreClient
             // 
-            this.nombreClient.Location = new System.Drawing.Point(660, 103);
+            this.nombreClient.Location = new System.Drawing.Point(440, 67);
+            this.nombreClient.Margin = new System.Windows.Forms.Padding(2);
             this.nombreClient.Name = "nombreClient";
-            this.nombreClient.Size = new System.Drawing.Size(193, 26);
+            this.nombreClient.Size = new System.Drawing.Size(130, 20);
             this.nombreClient.TabIndex = 13;
             // 
             // nameClient
             // 
             this.nameClient.AutoSize = true;
-            this.nameClient.Location = new System.Drawing.Point(554, 106);
+            this.nameClient.Location = new System.Drawing.Point(369, 69);
+            this.nameClient.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.nameClient.Name = "nameClient";
-            this.nameClient.Size = new System.Drawing.Size(55, 20);
+            this.nameClient.Size = new System.Drawing.Size(38, 13);
             this.nameClient.TabIndex = 12;
             this.nameClient.Text = "Name:";
             // 
             // idcliente
             // 
-            this.idcliente.Location = new System.Drawing.Point(139, 109);
+            this.idcliente.Location = new System.Drawing.Point(93, 71);
+            this.idcliente.Margin = new System.Windows.Forms.Padding(2);
             this.idcliente.Name = "idcliente";
-            this.idcliente.Size = new System.Drawing.Size(193, 26);
+            this.idcliente.Size = new System.Drawing.Size(130, 20);
             this.idcliente.TabIndex = 11;
             // 
             // IdClient
             // 
             this.IdClient.AutoSize = true;
-            this.IdClient.Location = new System.Drawing.Point(24, 109);
+            this.IdClient.Location = new System.Drawing.Point(16, 71);
+            this.IdClient.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.IdClient.Name = "IdClient";
-            this.IdClient.Size = new System.Drawing.Size(87, 20);
+            this.IdClient.Size = new System.Drawing.Size(59, 13);
             this.IdClient.TabIndex = 10;
             this.IdClient.Text = "Document:";
             // 
@@ -298,35 +321,39 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(507, 35);
+            this.button1.Location = new System.Drawing.Point(338, 23);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(159, 51);
+            this.button1.Size = new System.Drawing.Size(106, 33);
             this.button1.TabIndex = 9;
             this.button1.Text = "Search";
             this.button1.UseVisualStyleBackColor = false;
             // 
             // BuscarClient
             // 
-            this.BuscarClient.Location = new System.Drawing.Point(240, 44);
+            this.BuscarClient.Location = new System.Drawing.Point(160, 29);
+            this.BuscarClient.Margin = new System.Windows.Forms.Padding(2);
             this.BuscarClient.Name = "BuscarClient";
-            this.BuscarClient.Size = new System.Drawing.Size(193, 26);
+            this.BuscarClient.Size = new System.Drawing.Size(130, 20);
             this.BuscarClient.TabIndex = 1;
             // 
             // SearchClient
             // 
             this.SearchClient.AutoSize = true;
-            this.SearchClient.Location = new System.Drawing.Point(33, 44);
+            this.SearchClient.Location = new System.Drawing.Point(22, 29);
+            this.SearchClient.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SearchClient.Name = "SearchClient";
-            this.SearchClient.Size = new System.Drawing.Size(148, 20);
+            this.SearchClient.Size = new System.Drawing.Size(99, 13);
             this.SearchClient.TabIndex = 0;
             this.SearchClient.Text = "Search Clients (Id): ";
             // 
             // GestionClientForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1593, 928);
+            this.ClientSize = new System.Drawing.Size(1062, 603);
             this.Controls.Add(this.ADMIN);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GestionClientForm";
             this.Text = "GestionClientForm";
             this.ADMIN.ResumeLayout(false);

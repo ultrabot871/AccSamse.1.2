@@ -1,5 +1,5 @@
 ﻿using AccSamse._1._2.Controllers;
-using AccSamse._1._2.Models;  // 👈 para usar ConexionDataBase
+using AccSamse._1._2.Models;  
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,13 +22,12 @@ namespace AccSamse._1._2.Views
         public AdminForm()
         {
             InitializeComponent();
-            // Para que el grid genere columnas automáticamente
             gridAdmin.AutoGenerateColumns = true;
         }
 
         private void ADMIN_Enter(object sender, EventArgs e)
         {
-            // Si necesitas probar conexión (opcional)
+            // probar conexión
             SqlConnection conn = ConexionDataBase.GetConnection();
             ConexionDataBase.CloseConnection();
         }
@@ -61,7 +60,7 @@ namespace AccSamse._1._2.Views
         {
             try
             {
-                // Validaciones básicas (ajusta a tu gusto)
+                // Validaciones 
                 if (string.IsNullOrWhiteSpace(nombreEmployeers.Text) ||
                     string.IsNullOrWhiteSpace(lastEmployeers.Text) ||
                     string.IsNullOrWhiteSpace(EmailEmpleado.Text) ||
@@ -71,8 +70,16 @@ namespace AccSamse._1._2.Views
                     return;
                 }
 
+                // Solo dígitos en documento
+                string doc = idempleado.Text.Trim();
+                if (!System.Text.RegularExpressions.Regex.IsMatch(doc, @"^\d+$"))
+                {
+                    MessageBox.Show("Document debe contener solo números (0-9).");
+                    idempleado.Focus();
+                    return;
+                }
+
                 User u = new User();
-                // Id_person NO se envía en CREATE si es IDENTITY en la BD
                 u.Name = nombreEmployeers.Text;
                 u.Last_Name = lastEmployeers.Text;
                 u.Email = EmailEmpleado.Text;
@@ -106,7 +113,7 @@ namespace AccSamse._1._2.Views
                 }
 
                 User u = new User();
-                u.Id_person = id;                     // ⬅️ propiedad según tu modelo
+                u.Id_person = id;                     
                 u.Name = nombreEmployeers.Text;
                 u.Last_Name = lastEmployeers.Text;
                 u.Email = EmailEmpleado.Text;
@@ -204,7 +211,7 @@ namespace AccSamse._1._2.Views
             try
             {
                 List<User> data = _users.GetAll();
-                gridAdmin.DataSource = null; // refresco seguro
+                gridAdmin.DataSource = null; 
                 gridAdmin.DataSource = data;
             }
             catch (Exception ex)
@@ -228,7 +235,7 @@ namespace AccSamse._1._2.Views
 
         private void gridAdmin_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Opcional: si quieres que al hacer clic en una fila se llenen los TextBox:
+           
             if (e.RowIndex >= 0 && gridAdmin.DataSource is List<User>)
             {
                 User u = (User)gridAdmin.Rows[e.RowIndex].DataBoundItem;
@@ -241,6 +248,11 @@ namespace AccSamse._1._2.Views
                 RoleUser.Text = u.Role;
                 PasswordEmployeers.Text = u.Password;
             }
+        }
+
+        private void grpManageArea_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
