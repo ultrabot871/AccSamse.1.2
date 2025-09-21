@@ -30,13 +30,10 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ADMIN = new System.Windows.Forms.GroupBox();
+            this.buttonLoadUsers = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.grpList = new System.Windows.Forms.GroupBox();
-            this.gridAdmin = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridAdminClient = new System.Windows.Forms.DataGridView();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -56,13 +53,14 @@
             this.SearchClient = new System.Windows.Forms.Label();
             this.ADMIN.SuspendLayout();
             this.grpList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridAdmin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAdminClient)).BeginInit();
             this.grpManageArea.SuspendLayout();
             this.SuspendLayout();
             // 
             // ADMIN
             // 
             this.ADMIN.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ADMIN.Controls.Add(this.buttonLoadUsers);
             this.ADMIN.Controls.Add(this.btnExit);
             this.ADMIN.Controls.Add(this.grpList);
             this.ADMIN.Controls.Add(this.btnEdit);
@@ -77,6 +75,20 @@
             this.ADMIN.TabIndex = 2;
             this.ADMIN.TabStop = false;
             this.ADMIN.Text = "GestionClients";
+            this.ADMIN.Enter += new System.EventHandler(this.ADMIN_Enter);
+            // 
+            // buttonLoadUsers
+            // 
+            this.buttonLoadUsers.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.buttonLoadUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonLoadUsers.Location = new System.Drawing.Point(739, 219);
+            this.buttonLoadUsers.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonLoadUsers.Name = "buttonLoadUsers";
+            this.buttonLoadUsers.Size = new System.Drawing.Size(106, 33);
+            this.buttonLoadUsers.TabIndex = 14;
+            this.buttonLoadUsers.Text = "LoadUsers";
+            this.buttonLoadUsers.UseVisualStyleBackColor = false;
+            this.buttonLoadUsers.Click += new System.EventHandler(this.buttonLoadUsers_Click);
             // 
             // btnExit
             // 
@@ -93,7 +105,7 @@
             // 
             // grpList
             // 
-            this.grpList.Controls.Add(this.gridAdmin);
+            this.grpList.Controls.Add(this.gridAdminClient);
             this.grpList.Location = new System.Drawing.Point(21, 256);
             this.grpList.Margin = new System.Windows.Forms.Padding(2);
             this.grpList.Name = "grpList";
@@ -103,26 +115,21 @@
             this.grpList.TabStop = false;
             this.grpList.Text = "List";
             // 
-            // gridAdmin
+            // gridAdminClient
             // 
-            this.gridAdmin.AllowUserToAddRows = false;
-            this.gridAdmin.AllowUserToDeleteRows = false;
-            this.gridAdmin.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gridAdmin.BackgroundColor = System.Drawing.Color.White;
-            this.gridAdmin.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
-            this.gridAdmin.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gridAdmin.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridAdmin.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4});
-            this.gridAdmin.EnableHeadersVisualStyles = false;
-            this.gridAdmin.GridColor = System.Drawing.Color.Black;
-            this.gridAdmin.Location = new System.Drawing.Point(19, 23);
-            this.gridAdmin.Margin = new System.Windows.Forms.Padding(2);
-            this.gridAdmin.Name = "gridAdmin";
-            this.gridAdmin.ReadOnly = true;
+            this.gridAdminClient.AllowUserToAddRows = false;
+            this.gridAdminClient.AllowUserToDeleteRows = false;
+            this.gridAdminClient.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridAdminClient.BackgroundColor = System.Drawing.Color.White;
+            this.gridAdminClient.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
+            this.gridAdminClient.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gridAdminClient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridAdminClient.EnableHeadersVisualStyles = false;
+            this.gridAdminClient.GridColor = System.Drawing.Color.Black;
+            this.gridAdminClient.Location = new System.Drawing.Point(19, 23);
+            this.gridAdminClient.Margin = new System.Windows.Forms.Padding(2);
+            this.gridAdminClient.Name = "gridAdminClient";
+            this.gridAdminClient.ReadOnly = true;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -130,65 +137,39 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAdmin.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridAdmin.RowHeadersVisible = false;
-            this.gridAdmin.RowHeadersWidth = 62;
-            this.gridAdmin.RowTemplate.Height = 28;
-            this.gridAdmin.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAdmin.Size = new System.Drawing.Size(929, 239);
-            this.gridAdmin.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Document";
-            this.Column1.MinimumWidth = 8;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Name";
-            this.Column2.MinimumWidth = 8;
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "email";
-            this.Column3.MinimumWidth = 8;
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Phone";
-            this.Column4.MinimumWidth = 8;
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
+            this.gridAdminClient.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridAdminClient.RowHeadersVisible = false;
+            this.gridAdminClient.RowHeadersWidth = 62;
+            this.gridAdminClient.RowTemplate.Height = 28;
+            this.gridAdminClient.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridAdminClient.Size = new System.Drawing.Size(929, 239);
+            this.gridAdminClient.TabIndex = 0;
             // 
             // btnEdit
             // 
             this.btnEdit.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Location = new System.Drawing.Point(448, 219);
+            this.btnEdit.Location = new System.Drawing.Point(372, 219);
             this.btnEdit.Margin = new System.Windows.Forms.Padding(2);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(106, 33);
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Location = new System.Drawing.Point(764, 219);
+            this.btnDelete.Location = new System.Drawing.Point(555, 219);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(106, 33);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAdd
             // 
@@ -201,6 +182,7 @@
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // grpManageArea
             // 
@@ -288,6 +270,7 @@
             this.nombreClient.Name = "nombreClient";
             this.nombreClient.Size = new System.Drawing.Size(130, 20);
             this.nombreClient.TabIndex = 13;
+            this.nombreClient.TextChanged += new System.EventHandler(this.nombreClient_TextChanged);
             // 
             // nameClient
             // 
@@ -328,6 +311,7 @@
             this.button1.TabIndex = 9;
             this.button1.Text = "Search";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // BuscarClient
             // 
@@ -356,9 +340,10 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GestionClientForm";
             this.Text = "GestionClientForm";
+            this.Load += new System.EventHandler(this.GestionClientForm_Load);
             this.ADMIN.ResumeLayout(false);
             this.grpList.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridAdmin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAdminClient)).EndInit();
             this.grpManageArea.ResumeLayout(false);
             this.grpManageArea.PerformLayout();
             this.ResumeLayout(false);
@@ -370,11 +355,7 @@
         private System.Windows.Forms.GroupBox ADMIN;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.GroupBox grpList;
-        private System.Windows.Forms.DataGridView gridAdmin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridView gridAdminClient;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnAdd;
@@ -392,5 +373,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox BuscarClient;
         private System.Windows.Forms.Label SearchClient;
+        private System.Windows.Forms.Button buttonLoadUsers;
     }
 }

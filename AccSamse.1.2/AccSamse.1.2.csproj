@@ -46,12 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="controllers\SalesController.cs" />
-    <Compile Include="controllers\UsersController.cs" />
-    <Compile Include="models\ConexionDataBase.cs" />
-    <Compile Include="models\Person.cs" />
-    <Compile Include="models\Sale.cs" />
-    <Compile Include="models\User.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\ConexionDataBase.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Sale.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\AdminForm.cs">

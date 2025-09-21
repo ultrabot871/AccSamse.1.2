@@ -23,5 +23,10 @@ namespace AccSamse._1._2.Views
             form.Show();
             this.Hide();
         }
+
+        private void ReportsAdmin_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

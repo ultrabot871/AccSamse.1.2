@@ -34,13 +34,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ReportFinish = new System.Windows.Forms.Label();
             this.GeneratedReport = new System.Windows.Forms.GroupBox();
+            this.btnReportsExit = new System.Windows.Forms.Button();
             this.GenerarReporte = new System.Windows.Forms.Button();
             this.datosReporte = new System.Windows.Forms.TextBox();
             this.DateReport = new System.Windows.Forms.Label();
             this.TipoReporte = new System.Windows.Forms.TextBox();
             this.TypeReport = new System.Windows.Forms.Label();
             this.reporte = new System.Windows.Forms.Label();
-            this.btnReportsExit = new System.Windows.Forms.Button();
             this.ReportsAdmin.SuspendLayout();
             this.ReportGenerate.SuspendLayout();
             this.GeneratedReport.SuspendLayout();
@@ -52,13 +52,14 @@
             this.ReportsAdmin.Controls.Add(this.ReportGenerate);
             this.ReportsAdmin.Controls.Add(this.GeneratedReport);
             this.ReportsAdmin.Location = new System.Drawing.Point(1, 1);
-            this.ReportsAdmin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReportsAdmin.Margin = new System.Windows.Forms.Padding(2);
             this.ReportsAdmin.Name = "ReportsAdmin";
-            this.ReportsAdmin.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReportsAdmin.Padding = new System.Windows.Forms.Padding(2);
             this.ReportsAdmin.Size = new System.Drawing.Size(1079, 612);
             this.ReportsAdmin.TabIndex = 1;
             this.ReportsAdmin.TabStop = false;
             this.ReportsAdmin.Text = "Reports";
+            this.ReportsAdmin.Enter += new System.EventHandler(this.ReportsAdmin_Enter);
             // 
             // ReportGenerate
             // 
@@ -66,9 +67,9 @@
             this.ReportGenerate.Controls.Add(this.label1);
             this.ReportGenerate.Controls.Add(this.ReportFinish);
             this.ReportGenerate.Location = new System.Drawing.Point(605, 29);
-            this.ReportGenerate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReportGenerate.Margin = new System.Windows.Forms.Padding(2);
             this.ReportGenerate.Name = "ReportGenerate";
-            this.ReportGenerate.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReportGenerate.Padding = new System.Windows.Forms.Padding(2);
             this.ReportGenerate.Size = new System.Drawing.Size(448, 558);
             this.ReportGenerate.TabIndex = 1;
             this.ReportGenerate.TabStop = false;
@@ -115,19 +116,32 @@
             this.GeneratedReport.Controls.Add(this.TypeReport);
             this.GeneratedReport.Controls.Add(this.reporte);
             this.GeneratedReport.Location = new System.Drawing.Point(20, 29);
-            this.GeneratedReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GeneratedReport.Margin = new System.Windows.Forms.Padding(2);
             this.GeneratedReport.Name = "GeneratedReport";
-            this.GeneratedReport.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GeneratedReport.Padding = new System.Windows.Forms.Padding(2);
             this.GeneratedReport.Size = new System.Drawing.Size(569, 558);
             this.GeneratedReport.TabIndex = 0;
             this.GeneratedReport.TabStop = false;
             this.GeneratedReport.Text = "Generar";
             // 
+            // btnReportsExit
+            // 
+            this.btnReportsExit.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnReportsExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReportsExit.Location = new System.Drawing.Point(202, 418);
+            this.btnReportsExit.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReportsExit.Name = "btnReportsExit";
+            this.btnReportsExit.Size = new System.Drawing.Size(106, 33);
+            this.btnReportsExit.TabIndex = 23;
+            this.btnReportsExit.Text = "EXIT";
+            this.btnReportsExit.UseVisualStyleBackColor = false;
+            this.btnReportsExit.Click += new System.EventHandler(this.btnReportsExit_Click);
+            // 
             // GenerarReporte
             // 
             this.GenerarReporte.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GenerarReporte.Location = new System.Drawing.Point(168, 355);
-            this.GenerarReporte.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GenerarReporte.Margin = new System.Windows.Forms.Padding(2);
             this.GenerarReporte.Name = "GenerarReporte";
             this.GenerarReporte.Size = new System.Drawing.Size(171, 32);
             this.GenerarReporte.TabIndex = 19;
@@ -137,7 +151,7 @@
             // datosReporte
             // 
             this.datosReporte.Location = new System.Drawing.Point(199, 289);
-            this.datosReporte.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.datosReporte.Margin = new System.Windows.Forms.Padding(2);
             this.datosReporte.Name = "datosReporte";
             this.datosReporte.Size = new System.Drawing.Size(165, 20);
             this.datosReporte.TabIndex = 18;
@@ -156,7 +170,7 @@
             // TipoReporte
             // 
             this.TipoReporte.Location = new System.Drawing.Point(199, 211);
-            this.TipoReporte.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TipoReporte.Margin = new System.Windows.Forms.Padding(2);
             this.TipoReporte.Name = "TipoReporte";
             this.TipoReporte.Size = new System.Drawing.Size(165, 20);
             this.TipoReporte.TabIndex = 16;
@@ -183,26 +197,13 @@
             this.reporte.TabIndex = 14;
             this.reporte.Text = "Report";
             // 
-            // btnReportsExit
-            // 
-            this.btnReportsExit.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.btnReportsExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReportsExit.Location = new System.Drawing.Point(202, 418);
-            this.btnReportsExit.Margin = new System.Windows.Forms.Padding(2);
-            this.btnReportsExit.Name = "btnReportsExit";
-            this.btnReportsExit.Size = new System.Drawing.Size(106, 33);
-            this.btnReportsExit.TabIndex = 23;
-            this.btnReportsExit.Text = "EXIT";
-            this.btnReportsExit.UseVisualStyleBackColor = false;
-            this.btnReportsExit.Click += new System.EventHandler(this.btnReportsExit_Click);
-            // 
             // Reports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1077, 610);
             this.Controls.Add(this.ReportsAdmin);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Reports";
             this.Text = "Reports";
             this.ReportsAdmin.ResumeLayout(false);

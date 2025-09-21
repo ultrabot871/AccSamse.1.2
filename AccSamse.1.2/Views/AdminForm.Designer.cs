@@ -456,12 +456,12 @@
             // SearchEmployeers
             // 
             this.SearchEmployeers.AutoSize = true;
-            this.SearchEmployeers.Location = new System.Drawing.Point(22, 29);
+            this.SearchEmployeers.Location = new System.Drawing.Point(16, 32);
             this.SearchEmployeers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SearchEmployeers.Name = "SearchEmployeers";
-            this.SearchEmployeers.Size = new System.Drawing.Size(122, 13);
+            this.SearchEmployeers.Size = new System.Drawing.Size(162, 13);
             this.SearchEmployeers.TabIndex = 0;
-            this.SearchEmployeers.Text = "Search Employeers (Id): ";
+            this.SearchEmployeers.Text = "Search Employeers (Document): ";
             // 
             // AdminForm
             // 

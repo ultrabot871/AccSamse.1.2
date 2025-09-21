@@ -108,7 +108,7 @@ namespace AccSamse._1._2.Views
                 int id;
                 if (!int.TryParse(idempleado.Text, out id))
                 {
-                    MessageBox.Show("ID inválido.");
+                    MessageBox.Show("Document inválido.");
                     return;
                 }
 
@@ -172,7 +172,7 @@ namespace AccSamse._1._2.Views
                 int id;
                 if (!int.TryParse(BuscarEmployeers.Text, out id))
                 {
-                    MessageBox.Show("ID de búsqueda inválido.");
+                    MessageBox.Show("Document de búsqueda inválido.");
                     return;
                 }
 

@@ -13,6 +13,10 @@ namespace AccSamse._1._2.Models
         private double total;
         private string state;
 
+        public Sale()
+        {
+        }
+
         public Sale(int id_Sale, DateTime date, double total, string state)
         {
             this.id_Sale = id_Sale;
