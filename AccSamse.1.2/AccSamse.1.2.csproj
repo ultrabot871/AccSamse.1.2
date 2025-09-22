@@ -46,10 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controllers\ProductsController.cs" />
     <Compile Include="controllers\SalesController.cs" />
     <Compile Include="controllers\UsersController.cs" />
     <Compile Include="models\ConexionDataBase.cs" />
     <Compile Include="models\Person.cs" />
+    <Compile Include="models\Product.cs" />
     <Compile Include="models\Sale.cs" />
     <Compile Include="models\User.cs" />
     <Compile Include="Program.cs" />

@@ -11,7 +11,9 @@ namespace AccSamse._1._2.Models
 
         // 🔹 Cadena de conexión (puedes moverla a App.config después)
         private static readonly string cadenaConexion =
-            "Data Source=SANTIAGO\\SANTIAGO;Initial Catalog=AccSamseDb.1.2;Integrated Security=True";
+            "Data Source=SANTIAGO\\SANTIAGO;" +
+            "Initial Catalog=AccSamseDb.1.2;" +
+            "Integrated Security=True";
 
         // 🔹 Método global para obtener la conexión
         public static SqlConnection GetConnection()
