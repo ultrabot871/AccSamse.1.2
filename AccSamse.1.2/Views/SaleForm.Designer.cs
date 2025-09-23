@@ -1,4 +1,6 @@
-﻿namespace AccSamse._1._2.Views
+﻿using System.Windows.Forms;
+
+namespace AccSamse._1._2.Views
 {
     partial class SaleForm
     {
@@ -30,6 +32,7 @@
         {
             this.groupBoxSaleForm = new System.Windows.Forms.GroupBox();
             this.groupBoxFinishSale = new System.Windows.Forms.GroupBox();
+            this.ExitSaleForm = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBoxTotalSale = new System.Windows.Forms.TextBox();
             this.labelTotalSale = new System.Windows.Forms.Label();
@@ -41,15 +44,10 @@
             this.groupBoxProduct = new System.Windows.Forms.GroupBox();
             this.ButtonAddProduct = new System.Windows.Forms.Button();
             this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
-            this.CodeProduc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PriceProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SubtotalProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DeleteProduct = new System.Windows.Forms.DataGridViewButtonColumn();
             this.TextBuscarProduct = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBoxClient = new System.Windows.Forms.GroupBox();
+            this.textBoxSaleNo = new System.Windows.Forms.TextBox();
             this.NameSallerSale = new System.Windows.Forms.TextBox();
             this.NameClientSale = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -63,8 +61,6 @@
             this.LabelDateSale = new System.Windows.Forms.Label();
             this.labelSaleNo = new System.Windows.Forms.Label();
             this.labelClientSearch = new System.Windows.Forms.Label();
-            this.textBoxSaleNo = new System.Windows.Forms.TextBox();
-            this.ExitSaleForm = new System.Windows.Forms.Button();
             this.groupBoxSaleForm.SuspendLayout();
             this.groupBoxFinishSale.SuspendLayout();
             this.groupBoxPayment.SuspendLayout();
@@ -84,7 +80,7 @@
             this.groupBoxSaleForm.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxSaleForm.Location = new System.Drawing.Point(0, 0);
             this.groupBoxSaleForm.Name = "groupBoxSaleForm";
-            this.groupBoxSaleForm.Size = new System.Drawing.Size(1001, 452);
+            this.groupBoxSaleForm.Size = new System.Drawing.Size(857, 452);
             this.groupBoxSaleForm.TabIndex = 1;
             this.groupBoxSaleForm.TabStop = false;
             this.groupBoxSaleForm.Text = "Sale";
@@ -96,12 +92,22 @@
             this.groupBoxFinishSale.Controls.Add(this.button1);
             this.groupBoxFinishSale.Controls.Add(this.textBoxTotalSale);
             this.groupBoxFinishSale.Controls.Add(this.labelTotalSale);
-            this.groupBoxFinishSale.Location = new System.Drawing.Point(852, 125);
+            this.groupBoxFinishSale.Location = new System.Drawing.Point(707, 127);
             this.groupBoxFinishSale.Name = "groupBoxFinishSale";
             this.groupBoxFinishSale.Size = new System.Drawing.Size(141, 319);
             this.groupBoxFinishSale.TabIndex = 3;
             this.groupBoxFinishSale.TabStop = false;
             this.groupBoxFinishSale.Text = "FinishSale";
+            // 
+            // ExitSaleForm
+            // 
+            this.ExitSaleForm.Location = new System.Drawing.Point(9, 245);
+            this.ExitSaleForm.Name = "ExitSaleForm";
+            this.ExitSaleForm.Size = new System.Drawing.Size(121, 28);
+            this.ExitSaleForm.TabIndex = 7;
+            this.ExitSaleForm.Text = "Exit sale";
+            this.ExitSaleForm.UseVisualStyleBackColor = true;
+            this.ExitSaleForm.Click += new System.EventHandler(this.button4_Click);
             // 
             // button1
             // 
@@ -139,7 +145,7 @@
             this.groupBoxPayment.Controls.Add(this.labelPaymentMethod);
             this.groupBoxPayment.Location = new System.Drawing.Point(13, 384);
             this.groupBoxPayment.Name = "groupBoxPayment";
-            this.groupBoxPayment.Size = new System.Drawing.Size(833, 60);
+            this.groupBoxPayment.Size = new System.Drawing.Size(688, 60);
             this.groupBoxPayment.TabIndex = 2;
             this.groupBoxPayment.TabStop = false;
             this.groupBoxPayment.Text = "Payment";
@@ -191,7 +197,7 @@
             this.groupBoxProduct.Controls.Add(this.label1);
             this.groupBoxProduct.Location = new System.Drawing.Point(13, 125);
             this.groupBoxProduct.Name = "groupBoxProduct";
-            this.groupBoxProduct.Size = new System.Drawing.Size(833, 259);
+            this.groupBoxProduct.Size = new System.Drawing.Size(688, 259);
             this.groupBoxProduct.TabIndex = 1;
             this.groupBoxProduct.TabStop = false;
             this.groupBoxProduct.Text = "Product";
@@ -210,64 +216,13 @@
             // dataGridViewProducts
             // 
             this.dataGridViewProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewProducts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CodeProduc,
-            this.ProductName,
-            this.StockProduct,
-            this.PriceProduct,
-            this.SubtotalProduct,
-            this.DeleteProduct});
             this.dataGridViewProducts.Location = new System.Drawing.Point(6, 63);
             this.dataGridViewProducts.Name = "dataGridViewProducts";
             this.dataGridViewProducts.RowHeadersWidth = 62;
-            this.dataGridViewProducts.Size = new System.Drawing.Size(816, 150);
+            this.dataGridViewProducts.Size = new System.Drawing.Size(664, 150);
             this.dataGridViewProducts.TabIndex = 2;
             this.dataGridViewProducts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProducts_CellContentClick);
-            // 
-            // CodeProduc
-            // 
-            this.CodeProduc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CodeProduc.FillWeight = 50F;
-            this.CodeProduc.HeaderText = "Code";
-            this.CodeProduc.MinimumWidth = 8;
-            this.CodeProduc.Name = "CodeProduc";
-            this.CodeProduc.Width = 101;
-            // 
-            // ProductName
-            // 
-            this.ProductName.HeaderText = "Product";
-            this.ProductName.MinimumWidth = 8;
-            this.ProductName.Name = "ProductName";
-            this.ProductName.Width = 150;
-            // 
-            // StockProduct
-            // 
-            this.StockProduct.HeaderText = "Stock";
-            this.StockProduct.MinimumWidth = 8;
-            this.StockProduct.Name = "StockProduct";
-            this.StockProduct.Width = 150;
-            // 
-            // PriceProduct
-            // 
-            this.PriceProduct.HeaderText = "Price";
-            this.PriceProduct.MinimumWidth = 8;
-            this.PriceProduct.Name = "PriceProduct";
-            this.PriceProduct.Width = 150;
-            // 
-            // SubtotalProduct
-            // 
-            this.SubtotalProduct.HeaderText = "Subtotal";
-            this.SubtotalProduct.MinimumWidth = 8;
-            this.SubtotalProduct.Name = "SubtotalProduct";
-            this.SubtotalProduct.Width = 150;
-            // 
-            // DeleteProduct
-            // 
-            this.DeleteProduct.HeaderText = "Delete";
-            this.DeleteProduct.MinimumWidth = 8;
-            this.DeleteProduct.Name = "DeleteProduct";
-            this.DeleteProduct.Text = "-";
-            this.DeleteProduct.Width = 50;
+            this.dataGridViewProducts.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProducts_CellEndEdit);
             // 
             // TextBuscarProduct
             // 
@@ -275,6 +230,7 @@
             this.TextBuscarProduct.Name = "TextBuscarProduct";
             this.TextBuscarProduct.Size = new System.Drawing.Size(100, 25);
             this.TextBuscarProduct.TabIndex = 1;
+            this.TextBuscarProduct.TextChanged += new System.EventHandler(this.TextBuscarProduct_TextChanged);
             // 
             // label1
             // 
@@ -303,11 +259,21 @@
             this.groupBoxClient.Controls.Add(this.labelClientSearch);
             this.groupBoxClient.Location = new System.Drawing.Point(12, 19);
             this.groupBoxClient.Name = "groupBoxClient";
-            this.groupBoxClient.Size = new System.Drawing.Size(981, 100);
+            this.groupBoxClient.Size = new System.Drawing.Size(836, 100);
             this.groupBoxClient.TabIndex = 0;
             this.groupBoxClient.TabStop = false;
             this.groupBoxClient.Text = "Client-Saller";
             this.groupBoxClient.Enter += new System.EventHandler(this.groupBoxClient_Enter);
+            // 
+            // textBoxSaleNo
+            // 
+            this.textBoxSaleNo.Location = new System.Drawing.Point(695, 23);
+            this.textBoxSaleNo.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxSaleNo.Name = "textBoxSaleNo";
+            this.textBoxSaleNo.ReadOnly = true;
+            this.textBoxSaleNo.Size = new System.Drawing.Size(130, 25);
+            this.textBoxSaleNo.TabIndex = 20;
+            this.textBoxSaleNo.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // NameSallerSale
             // 
@@ -366,6 +332,7 @@
             this.BuscarSallerSale.Name = "BuscarSallerSale";
             this.BuscarSallerSale.Size = new System.Drawing.Size(130, 25);
             this.BuscarSallerSale.TabIndex = 14;
+            this.BuscarSallerSale.TextChanged += new System.EventHandler(this.BuscarSallerSale_TextChanged);
             // 
             // button2
             // 
@@ -402,7 +369,7 @@
             // 
             this.dateTimePickerDateSale.Enabled = false;
             this.dateTimePickerDateSale.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerDateSale.Location = new System.Drawing.Point(849, 63);
+            this.dateTimePickerDateSale.Location = new System.Drawing.Point(716, 58);
             this.dateTimePickerDateSale.Name = "dateTimePickerDateSale";
             this.dateTimePickerDateSale.Size = new System.Drawing.Size(109, 25);
             this.dateTimePickerDateSale.TabIndex = 9;
@@ -411,7 +378,7 @@
             // LabelDateSale
             // 
             this.LabelDateSale.AutoSize = true;
-            this.LabelDateSale.Location = new System.Drawing.Point(799, 69);
+            this.LabelDateSale.Location = new System.Drawing.Point(654, 64);
             this.LabelDateSale.Name = "LabelDateSale";
             this.LabelDateSale.Size = new System.Drawing.Size(35, 17);
             this.LabelDateSale.TabIndex = 8;
@@ -420,7 +387,7 @@
             // labelSaleNo
             // 
             this.labelSaleNo.AutoSize = true;
-            this.labelSaleNo.Location = new System.Drawing.Point(780, 29);
+            this.labelSaleNo.Location = new System.Drawing.Point(635, 26);
             this.labelSaleNo.Name = "labelSaleNo";
             this.labelSaleNo.Size = new System.Drawing.Size(54, 17);
             this.labelSaleNo.TabIndex = 6;
@@ -436,31 +403,11 @@
             this.labelClientSearch.TabIndex = 0;
             this.labelClientSearch.Text = "Client search";
             // 
-            // textBoxSaleNo
-            // 
-            this.textBoxSaleNo.Location = new System.Drawing.Point(839, 26);
-            this.textBoxSaleNo.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxSaleNo.Name = "textBoxSaleNo";
-            this.textBoxSaleNo.ReadOnly = true;
-            this.textBoxSaleNo.Size = new System.Drawing.Size(130, 25);
-            this.textBoxSaleNo.TabIndex = 20;
-            this.textBoxSaleNo.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // ExitSaleForm
-            // 
-            this.ExitSaleForm.Location = new System.Drawing.Point(9, 245);
-            this.ExitSaleForm.Name = "ExitSaleForm";
-            this.ExitSaleForm.Size = new System.Drawing.Size(121, 28);
-            this.ExitSaleForm.TabIndex = 7;
-            this.ExitSaleForm.Text = "Exit sale";
-            this.ExitSaleForm.UseVisualStyleBackColor = true;
-            this.ExitSaleForm.Click += new System.EventHandler(this.button4_Click);
-            // 
             // SaleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1001, 452);
+            this.ClientSize = new System.Drawing.Size(857, 452);
             this.Controls.Add(this.groupBoxSaleForm);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SaleForm";
@@ -511,12 +458,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox NameSallerSale;
         private System.Windows.Forms.TextBox NameClientSale;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodeProduc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StockProduct;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PriceProduct;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalProduct;
-        private System.Windows.Forms.DataGridViewButtonColumn DeleteProduct;
         private System.Windows.Forms.TextBox textBoxSaleNo;
         private System.Windows.Forms.Button ExitSaleForm;
     }

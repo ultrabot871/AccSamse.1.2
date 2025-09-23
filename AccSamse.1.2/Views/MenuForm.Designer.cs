@@ -29,18 +29,14 @@
         private void InitializeComponent()
         {
             this.groupBoxMenu = new System.Windows.Forms.GroupBox();
+            this.textBoxNameUserMenuForm = new System.Windows.Forms.TextBox();
+            this.textBoxRoleUserMenuForm = new System.Windows.Forms.TextBox();
             this.dateTimePickerDateMenu = new System.Windows.Forms.DateTimePicker();
             this.LabelDateMenu = new System.Windows.Forms.Label();
             this.labelMenuRoleUser = new System.Windows.Forms.Label();
             this.labelMenuNameUser = new System.Windows.Forms.Label();
             this.groupBoxViewsSales = new System.Windows.Forms.GroupBox();
             this.dataGridViewSaleMenuForm = new System.Windows.Forms.DataGridView();
-            this.id_SaleMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateSaleMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StateSaleMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalSaleMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DeleteSaleMenu = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.EditSaleMenu = new System.Windows.Forms.DataGridViewButtonColumn();
             this.buttonEntryAdministration = new System.Windows.Forms.Button();
             this.buttonOffSytem = new System.Windows.Forms.Button();
             this.buttonEntryInventory = new System.Windows.Forms.Button();
@@ -53,6 +49,8 @@
             // groupBoxMenu
             // 
             this.groupBoxMenu.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.groupBoxMenu.Controls.Add(this.textBoxNameUserMenuForm);
+            this.groupBoxMenu.Controls.Add(this.textBoxRoleUserMenuForm);
             this.groupBoxMenu.Controls.Add(this.dateTimePickerDateMenu);
             this.groupBoxMenu.Controls.Add(this.LabelDateMenu);
             this.groupBoxMenu.Controls.Add(this.labelMenuRoleUser);
@@ -66,11 +64,27 @@
             this.groupBoxMenu.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxMenu.Location = new System.Drawing.Point(0, 0);
             this.groupBoxMenu.Name = "groupBoxMenu";
-            this.groupBoxMenu.Size = new System.Drawing.Size(816, 490);
+            this.groupBoxMenu.Size = new System.Drawing.Size(998, 490);
             this.groupBoxMenu.TabIndex = 1;
             this.groupBoxMenu.TabStop = false;
             this.groupBoxMenu.Text = "Menu";
             this.groupBoxMenu.Enter += new System.EventHandler(this.groupBoxMenu_Enter);
+            // 
+            // textBoxNameUserMenuForm
+            // 
+            this.textBoxNameUserMenuForm.Location = new System.Drawing.Point(437, 47);
+            this.textBoxNameUserMenuForm.Name = "textBoxNameUserMenuForm";
+            this.textBoxNameUserMenuForm.ReadOnly = true;
+            this.textBoxNameUserMenuForm.Size = new System.Drawing.Size(100, 22);
+            this.textBoxNameUserMenuForm.TabIndex = 13;
+            // 
+            // textBoxRoleUserMenuForm
+            // 
+            this.textBoxRoleUserMenuForm.Location = new System.Drawing.Point(436, 15);
+            this.textBoxRoleUserMenuForm.Name = "textBoxRoleUserMenuForm";
+            this.textBoxRoleUserMenuForm.ReadOnly = true;
+            this.textBoxRoleUserMenuForm.Size = new System.Drawing.Size(100, 22);
+            this.textBoxRoleUserMenuForm.TabIndex = 12;
             // 
             // dateTimePickerDateMenu
             // 
@@ -80,6 +94,7 @@
             this.dateTimePickerDateMenu.Name = "dateTimePickerDateMenu";
             this.dateTimePickerDateMenu.Size = new System.Drawing.Size(109, 22);
             this.dateTimePickerDateMenu.TabIndex = 11;
+            this.dateTimePickerDateMenu.ValueChanged += new System.EventHandler(this.dateTimePickerDateMenu_ValueChanged);
             // 
             // LabelDateMenu
             // 
@@ -113,7 +128,7 @@
             this.groupBoxViewsSales.Controls.Add(this.dataGridViewSaleMenuForm);
             this.groupBoxViewsSales.Location = new System.Drawing.Point(12, 71);
             this.groupBoxViewsSales.Name = "groupBoxViewsSales";
-            this.groupBoxViewsSales.Size = new System.Drawing.Size(799, 338);
+            this.groupBoxViewsSales.Size = new System.Drawing.Size(970, 338);
             this.groupBoxViewsSales.TabIndex = 4;
             this.groupBoxViewsSales.TabStop = false;
             this.groupBoxViewsSales.Text = "Sales";
@@ -121,63 +136,12 @@
             // dataGridViewSaleMenuForm
             // 
             this.dataGridViewSaleMenuForm.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewSaleMenuForm.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id_SaleMenu,
-            this.DateSaleMenu,
-            this.StateSaleMenu,
-            this.TotalSaleMenu,
-            this.DeleteSaleMenu,
-            this.EditSaleMenu});
             this.dataGridViewSaleMenuForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewSaleMenuForm.Location = new System.Drawing.Point(3, 18);
             this.dataGridViewSaleMenuForm.Name = "dataGridViewSaleMenuForm";
             this.dataGridViewSaleMenuForm.RowHeadersWidth = 62;
-            this.dataGridViewSaleMenuForm.Size = new System.Drawing.Size(793, 317);
+            this.dataGridViewSaleMenuForm.Size = new System.Drawing.Size(964, 317);
             this.dataGridViewSaleMenuForm.TabIndex = 0;
-            // 
-            // id_SaleMenu
-            // 
-            this.id_SaleMenu.HeaderText = "Sale No";
-            this.id_SaleMenu.MinimumWidth = 8;
-            this.id_SaleMenu.Name = "id_SaleMenu";
-            this.id_SaleMenu.Width = 150;
-            // 
-            // DateSaleMenu
-            // 
-            this.DateSaleMenu.HeaderText = "Date";
-            this.DateSaleMenu.MinimumWidth = 8;
-            this.DateSaleMenu.Name = "DateSaleMenu";
-            this.DateSaleMenu.Width = 150;
-            // 
-            // StateSaleMenu
-            // 
-            this.StateSaleMenu.HeaderText = "State";
-            this.StateSaleMenu.MinimumWidth = 8;
-            this.StateSaleMenu.Name = "StateSaleMenu";
-            this.StateSaleMenu.Width = 180;
-            // 
-            // TotalSaleMenu
-            // 
-            this.TotalSaleMenu.HeaderText = "Total";
-            this.TotalSaleMenu.MinimumWidth = 8;
-            this.TotalSaleMenu.Name = "TotalSaleMenu";
-            this.TotalSaleMenu.Width = 150;
-            // 
-            // DeleteSaleMenu
-            // 
-            this.DeleteSaleMenu.HeaderText = "Delete";
-            this.DeleteSaleMenu.MinimumWidth = 8;
-            this.DeleteSaleMenu.Name = "DeleteSaleMenu";
-            this.DeleteSaleMenu.Width = 50;
-            // 
-            // EditSaleMenu
-            // 
-            this.EditSaleMenu.HeaderText = "Edit";
-            this.EditSaleMenu.MinimumWidth = 8;
-            this.EditSaleMenu.Name = "EditSaleMenu";
-            this.EditSaleMenu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.EditSaleMenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.EditSaleMenu.Width = 50;
             // 
             // buttonEntryAdministration
             // 
@@ -191,7 +155,7 @@
             // 
             // buttonOffSytem
             // 
-            this.buttonOffSytem.Location = new System.Drawing.Point(690, 413);
+            this.buttonOffSytem.Location = new System.Drawing.Point(878, 419);
             this.buttonOffSytem.Name = "buttonOffSytem";
             this.buttonOffSytem.Size = new System.Drawing.Size(104, 31);
             this.buttonOffSytem.TabIndex = 2;
@@ -222,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 490);
+            this.ClientSize = new System.Drawing.Size(998, 490);
             this.Controls.Add(this.groupBoxMenu);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MenuForm";
@@ -248,11 +212,7 @@
         private System.Windows.Forms.Button buttonOffSytem;
         private System.Windows.Forms.Button buttonEntryInventory;
         private System.Windows.Forms.Button buttonEntrySale;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_SaleMenu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateSaleMenu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StateSaleMenu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalSaleMenu;
-        private System.Windows.Forms.DataGridViewButtonColumn DeleteSaleMenu;
-        private System.Windows.Forms.DataGridViewButtonColumn EditSaleMenu;
+        private System.Windows.Forms.TextBox textBoxNameUserMenuForm;
+        private System.Windows.Forms.TextBox textBoxRoleUserMenuForm;
     }
 }

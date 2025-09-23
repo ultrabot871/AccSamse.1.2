@@ -16,5 +16,12 @@ namespace AccSamse._1._2.Views
         {
             InitializeComponent();
         }
+
+        private void buttonExitInventory_Click(object sender, EventArgs e)
+        {
+            MenuForm form = new MenuForm();
+            form.Show();
+            this.Hide();
+        }
     }
 }

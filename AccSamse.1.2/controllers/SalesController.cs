@@ -19,29 +19,36 @@ namespace AccSamse._1._2.Controllers
         {
             Sale s = new Sale();
             s.Id_Sale = Convert.ToInt32(r["id_Sale"]);
+            s.Id_Person = Convert.ToInt32(r["id_person"]);
+            s.Id_Client = Convert.ToInt32(r["id_Client"]);
+            s.Id_Payment = Convert.ToInt32(r["id_Payment"]);
             s.Date = r["date"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(r["date"]);
             s.Total = Convert.ToDouble(r["total"]);
             s.State = ToStr(r["state"]);
             return s;
         }
 
-        public bool Create(Sale s)
+        public int Create(Sale s)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             try
             {
-                string sql =
-                       "INSERT INTO dbo.Sales (date, total, state) " +
-                       "VALUES (@date, @total, @state)";
+                    string sql =
+                        "INSERT INTO dbo.Sales (id_person, id_Client, id_Payment, date, total, state) " +
+                        "VALUES (@person, @client, @payment, @date, @total, @state); " +
+                        "SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
+                    cmd.Parameters.AddWithValue("@person", s.Id_Person);
+                    cmd.Parameters.AddWithValue("@client", s.Id_Client);
+                    cmd.Parameters.AddWithValue("@payment", s.Id_Payment);
                     cmd.Parameters.AddWithValue("@date", s.Date);
                     cmd.Parameters.AddWithValue("@total", s.Total);
                     cmd.Parameters.AddWithValue("@state", s.State);
 
-                    int rows = cmd.ExecuteNonQuery();
-                    return rows > 0;
+                        int newId = (int)cmd.ExecuteScalar();
+                        return newId;
                 }
             }
             finally
@@ -57,10 +64,17 @@ namespace AccSamse._1._2.Controllers
 
             try
             {
-                string sql =
-                     "SELECT id_Sale, date, total, state " +
-                     "FROM dbo.Sales";
-
+                string sql = @"
+                  SELECT 
+                      s.id_Sale,
+                      s.id_person,
+                      s.id_client,
+                      s.id_payment,
+                      s.date,
+                      s.total,
+                      s.state
+                  FROM dbo.Sales s
+                 ";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -68,7 +82,17 @@ namespace AccSamse._1._2.Controllers
                     {
                         while (r.Read())
                         {
-                            list.Add(Map(r));
+                            Sale view = new Sale
+                            {
+                                Id_Sale = Convert.ToInt32(r["id_Sale"]),
+                                Id_Person = Convert.ToInt32(r["id_person"]),
+                                Id_Client = Convert.ToInt32(r["id_client"]),
+                                Id_Payment = Convert.ToInt32(r["id_payment"]),
+                                Date = Convert.ToDateTime(r["date"]),
+                                Total = Convert.ToDouble(r["total"]),
+                                State = r["state"].ToString()
+                            };
+                            list.Add(view);
                         }
                     }
                 }

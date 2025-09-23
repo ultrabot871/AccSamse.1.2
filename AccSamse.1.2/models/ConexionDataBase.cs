@@ -11,36 +11,17 @@ namespace AccSamse._1._2.Models
 
         // Cadena de conexión
         private static readonly string cadenaConexion =
-            "Data Source=KEXXX\\SQLEXPRESS;" +
-            "Initial Catalog=AccSamseDbss.1.2;" +
-            "Integrated Security=True";
+              "Data Source=KEXXX\\SQLEXPRESS;" +
+              "Initial Catalog=AccSamseDbss.1.2;" +
+              "Integrated Security=True";
+
 
         // Método global para obtener la conexión
         public static SqlConnection GetConnection()
         {
-            if (_conexion == null)
-            {
-                _conexion = new SqlConnection(cadenaConexion);
-                    /*System.
-                    Windows.
-                    Forms.
-                    MessageBox.
-                    Show("conexion exitosa");*/
-
-            }
-
-
-            if (_conexion.State == 
-                System.Data.
-                ConnectionState.
-                Closed)
-            {
-                _conexion.Open();
-                
-            }
-                
-
-            return _conexion;
+            SqlConnection conexion = new SqlConnection(cadenaConexion);
+            conexion.Open();
+            return conexion;
         }
 
         // Método global para cerrar conexión
