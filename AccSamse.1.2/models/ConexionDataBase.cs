@@ -21,7 +21,7 @@ namespace AccSamse._1._2.Models
             if (_conexion == null)
             {
                 _conexion = new SqlConnection(cadenaConexion);
-                System.Windows.Forms.MessageBox.Show("conexion exitosa");
+                //  System.Windows.Forms.MessageBox.Show("conexion exitosa");
 
             }
 

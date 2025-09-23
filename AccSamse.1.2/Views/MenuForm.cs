@@ -40,6 +40,12 @@ namespace AccSamse._1._2.Views
                     buttonEntryInventory.Visible = true;
                     buttonEntryAdministration.Visible = false;
                     break;
+
+                case "usuario":
+                    buttonEntrySale.Visible = true;
+                    buttonEntryInventory.Visible = true;
+                    buttonEntryAdministration.Visible = false;
+                    break;
             }
         }
 

@@ -37,6 +37,23 @@ namespace AccSamse._1._2.Controllers
             SqlConnection conn = ConexionDataBase.GetConnection();
             try
             {
+                
+                if (u.Role == "admin") 
+                {
+                    string checkSql = "SELECT COUNT(*) FROM dbo.usuarios WHERE role = @role";
+                    using (SqlCommand checkCmd = new SqlCommand(checkSql, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@role", u.Role);
+                        int count = (int)checkCmd.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            
+                            return false;
+                        }
+                    }
+                }
+
                 string sql =
                     "INSERT INTO dbo.usuarios " +
                     "(name, last_Name, email, document, phone, role, [password], [state]) " +

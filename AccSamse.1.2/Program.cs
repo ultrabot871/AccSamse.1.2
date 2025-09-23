@@ -17,7 +17,7 @@ namespace AccSamse._1._2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InitForm());
+            Application.Run(new AdminForm());
         }
     }
 }
