@@ -18,11 +18,13 @@ namespace AccSamse._1._2.Controllers
         private static Product Map(SqlDataReader r)
         {
             Product u = new Product();
-            u.Id_product = Convert.ToInt32(r["id_Product"]);
+            u.Id_product = Convert.ToInt32(r["id_product"]);
+            u.Id_Category = Convert.ToInt32(r["id_Category"]);
             u.Name = ToStr(r["name"]);
             u.Description = ToStr(r["description"]);
-            u.Price = Convert.ToDecimal(r["id_Product"]);
-            u.Stock = Convert.ToInt32(r["decimal"]);
+            u.Price = Convert.ToDecimal(r["price"]);
+            u.Stock = Convert.ToInt32(r["stock"]);
+            u.Category = ToStr(r["category"]); // 👈 ahora sí existe
             return u;
         }
 
@@ -32,10 +34,16 @@ namespace AccSamse._1._2.Controllers
 
             try
             {
-                string sql =
-                    "SELECT id_product, name, description, " +
-                    "price, stock, category" +
-                    "FROM dbo.Products WHERE id_product=@id";
+                string sql = @"
+                 SELECT p.id_product,
+                        p.id_Category,
+                        p.name, 
+                        p.description, 
+                        p.price, 
+                        p.stock, 
+                        c.name AS category
+                 FROM dbo.Products p
+                 INNER JOIN dbo.Categories c ON p.id_Category = c.id_Category";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -55,6 +63,43 @@ namespace AccSamse._1._2.Controllers
             {
                 ConexionDataBase.CloseConnection();
             }
+        }
+
+        public List<Product> GetAll()
+        {
+            List<Product> list = new List<Product>();
+            SqlConnection conn = ConexionDataBase.GetConnection();
+
+            try
+            {
+                string sql = @"
+                 SELECT p.id_product, 
+                        p.id_Category,
+                        p.name, 
+                        p.description, 
+                        p.price, 
+                        p.stock, 
+                        c.name AS category
+                 FROM dbo.Products p
+                 INNER JOIN dbo.Categories c ON p.id_Category = c.id_Category";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            list.Add(Map(r));
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                ConexionDataBase.CloseConnection();
+            }
+
+            return list;
         }
     }
 }
