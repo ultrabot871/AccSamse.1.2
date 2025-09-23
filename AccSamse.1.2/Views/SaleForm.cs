@@ -344,6 +344,16 @@ namespace AccSamse._1._2.Views
         {
             try
             {
+                // 🔹 1. Validar monto ingresado vs total
+                decimal total = Convert.ToDecimal(textBoxTotalSale.Text.Replace("Total: $", "").Trim());
+                decimal montoPago = decimal.Parse(textBoxAmountPayment.Text);
+
+                if (montoPago < total)
+                {
+                    MessageBox.Show("⚠ El monto ingresado debe ser mayor o igual al total de la venta.");
+                    return; // ❌ No sigue si no alcanza
+                }
+
                 if (_idSale.HasValue) // ✅ Estamos EDITANDO
                 {
                     // 1. Actualizar pago
