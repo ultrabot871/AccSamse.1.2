@@ -212,6 +212,37 @@ namespace AccSamse._1._2.Controllers
                 ConexionDataBase.CloseConnection();
             }
         }
+        // ===== LOGIN =====
+        public User Login(string email, string password)
+        {
+            SqlConnection conn = ConexionDataBase.GetConnection();
+
+            try
+            {
+                string sql =
+                    "SELECT id_person, name, last_Name, email, document, phone, role, [password], [state] " +
+                    "FROM dbo.usuarios WHERE email=@mail AND [password]=@pwd";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@mail", email);
+                    cmd.Parameters.AddWithValue("@pwd", password);
+
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            return Map(r); // Usa el Map que ya tienes
+                        }
+                    }
+                }
+                return null;
+            }
+            finally
+            {
+                ConexionDataBase.CloseConnection();
+            }
+        }
 
     }
 }

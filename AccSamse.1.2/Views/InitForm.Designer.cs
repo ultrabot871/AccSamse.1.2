@@ -57,6 +57,7 @@
             this.Init.TabIndex = 1;
             this.Init.TabStop = false;
             this.Init.Text = "Initt";
+            this.Init.Enter += new System.EventHandler(this.Init_Enter);
             // 
             // labelWelcome
             // 
@@ -83,6 +84,7 @@
             this.buttonStartSystem.Text = "System start";
             this.buttonStartSystem.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonStartSystem.UseVisualStyleBackColor = true;
+            this.buttonStartSystem.Click += new System.EventHandler(this.buttonStartSystem_Click);
             // 
             // labelPassword
             // 

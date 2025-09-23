@@ -68,10 +68,11 @@
             this.groupBoxMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxMenu.Name = "groupBoxMenu";
             this.groupBoxMenu.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxMenu.Size = new System.Drawing.Size(1229, 751);
+            this.groupBoxMenu.Size = new System.Drawing.Size(1051, 751);
             this.groupBoxMenu.TabIndex = 1;
             this.groupBoxMenu.TabStop = false;
             this.groupBoxMenu.Text = "Menu";
+            this.groupBoxMenu.Enter += new System.EventHandler(this.groupBoxMenu_Enter);
             // 
             // dateTimePickerDateMenu
             // 
@@ -120,7 +121,7 @@
             this.groupBoxViewsSales.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxViewsSales.Name = "groupBoxViewsSales";
             this.groupBoxViewsSales.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxViewsSales.Size = new System.Drawing.Size(1164, 520);
+            this.groupBoxViewsSales.Size = new System.Drawing.Size(1013, 520);
             this.groupBoxViewsSales.TabIndex = 4;
             this.groupBoxViewsSales.TabStop = false;
             this.groupBoxViewsSales.Text = "Sales";
@@ -140,7 +141,7 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.Size = new System.Drawing.Size(1156, 488);
+            this.dataGridView1.Size = new System.Drawing.Size(1005, 488);
             this.dataGridView1.TabIndex = 0;
             // 
             // id_SaleMenu
@@ -199,13 +200,14 @@
             // 
             // buttonOffSytem
             // 
-            this.buttonOffSytem.Location = new System.Drawing.Point(1035, 635);
+            this.buttonOffSytem.Location = new System.Drawing.Point(875, 641);
             this.buttonOffSytem.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonOffSytem.Name = "buttonOffSytem";
             this.buttonOffSytem.Size = new System.Drawing.Size(156, 48);
             this.buttonOffSytem.TabIndex = 2;
             this.buttonOffSytem.Text = "Off System";
             this.buttonOffSytem.UseVisualStyleBackColor = true;
+            this.buttonOffSytem.Click += new System.EventHandler(this.buttonOffSytem_Click);
             // 
             // buttonEntryInventory
             // 
@@ -231,7 +233,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1229, 751);
+            this.ClientSize = new System.Drawing.Size(1051, 751);
             this.Controls.Add(this.groupBoxMenu);
             this.Name = "MenuForm";
             this.Text = "MenuForm";

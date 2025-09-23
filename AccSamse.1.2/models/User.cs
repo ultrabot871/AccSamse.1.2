@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AccSamse._1._2.Models
 {
-    internal class User : Person
+    public class User : Person
     {
         private string role;
         private string password;

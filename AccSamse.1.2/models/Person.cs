@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AccSamse._1._2.Models
 {
-    internal class Person
+    public class Person
     {
         private int id_person;
         private string name;
