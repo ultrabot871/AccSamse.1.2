@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccSamse._1._2.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,17 @@ namespace AccSamse._1._2.Views
 {
     public partial class Reports : Form
     {
-        public Reports()
+        private User currentUser;
+
+        public Reports(User u)
         {
             InitializeComponent();
+            currentUser = u;
         }
 
         private void btnReportsExit_Click(object sender, EventArgs e)
         {
-            AdminForm form = new AdminForm();
+            AdminForm form = new AdminForm(currentUser);
             form.Show();
             this.Hide();
         }

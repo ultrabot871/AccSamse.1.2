@@ -33,15 +33,13 @@ namespace AccSamse._1._2.Controllers
         // ===== CREATE =====
         public bool Create(Client u)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
                     "INSERT INTO dbo.Client " +
-                    "(name, last_Name, email, document, " +
-                    "phone) " +
-                    "VALUES (@name, @last, @mail, @doc, " +
-                    "@phone)";
+                    "(name, last_Name, email, document, phone) " +
+                    "VALUES (@name, @last, @mail, @doc, @phone)";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -51,31 +49,26 @@ namespace AccSamse._1._2.Controllers
                     cmd.Parameters.AddWithValue("@doc", u.Document);
                     cmd.Parameters.AddWithValue("@phone", (object)u.Phone ?? DBNull.Value);
 
+                    
                     int rows = cmd.ExecuteNonQuery();
                     return rows > 0;
                 }
-            }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
             }
         }
 
         // ===== READ ALL =====
         public List<Client> GetAll()
         {
-            List<Client> list = new List<Client>();
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            var list = new List<Client>();
+            
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
-                string sql =
-                    "SELECT id_Client, name, last_Name, email, " +
-                    "document, phone " +
-                    "FROM dbo.Client";
+                conn.Open();
+                string sql = "SELECT id_Client, name, last_Name, email, document, phone FROM dbo.Client";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
+                    
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
                         while (r.Read())
@@ -85,30 +78,25 @@ namespace AccSamse._1._2.Controllers
                     }
                 }
             }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
-            }
 
             return list;
         }
 
-        // ===== READ BY ID =====
-        public Client GetById(int id)
+        // ===== READ BY DOCUMENT =====
+        public Client GetById(int document)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
-                    "SELECT id_Client, name, last_Name, " +
-                    "email, document, phone " +
+                    "SELECT id_Client, name, last_Name, email, document, phone " +
                     "FROM dbo.Client WHERE document=@doc";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@doc", id);
+                    cmd.Parameters.AddWithValue("@doc", document);
 
+                    
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
                         if (r.Read())
@@ -117,84 +105,101 @@ namespace AccSamse._1._2.Controllers
                         }
                     }
                 }
-                return null;
             }
-            finally
+            return null;
+        }
+
+        public Client GetByIdWhithDoc(int doc)
+        {
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
-                ConexionDataBase.CloseConnection();
+                conn.Open();
+                string sql =
+                    "SELECT id_Client, name, last_Name, email, " +
+                    "document, phone " +
+                    "FROM dbo.Client WHERE document=@doc";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@doc", doc);
+
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            // Aquí usamos tu Map y retornamos directamente
+                            return Map(r);
+                        }
+                    }
+                }
             }
+
+            // Si no se encuentra ningún usuario
+            return null;
         }
 
         // ===== UPDATE =====
         public bool Update(Client u)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
                     "UPDATE dbo.Client SET " +
-                    "name=@name, last_Name=@last, email=@mail, document=@doc, " +
-                    "phone=@phone " +
+                    "name=@name, last_Name=@last, email=@mail, phone=@phone " +
                     "WHERE document=@doc";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@id", u.Id_person);
                     cmd.Parameters.AddWithValue("@name", u.Name);
                     cmd.Parameters.AddWithValue("@last", u.Last_Name);
                     cmd.Parameters.AddWithValue("@mail", u.Email);
-                    cmd.Parameters.AddWithValue("@doc", u.Document);
                     cmd.Parameters.AddWithValue("@phone", (object)u.Phone ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@doc", u.Document);
 
+                    
                     int rows = cmd.ExecuteNonQuery();
                     return rows > 0;
                 }
-            }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
             }
         }
 
         // ===== DELETE =====
-        public bool Delete(int id)
+        public bool Delete(int document)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql = "DELETE FROM dbo.Client WHERE document=@doc";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@doc", id);
+                    cmd.Parameters.AddWithValue("@doc", document);
+
+                    
                     int rows = cmd.ExecuteNonQuery();
                     return rows > 0;
                 }
-            }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
             }
         }
 
         // ===== READ BY EMAIL =====
         public Client GetByEmail(string email)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
-                    "SELECT id_person, name, last_Name, email, " +
-                    "document, phone, typeClient " +
+                    "SELECT id_Client, name, last_Name, email, document, phone " +
                     "FROM dbo.Client WHERE email=@mail";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
+                   
                     cmd.Parameters.AddWithValue("@mail", email);
 
+                    
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
                         if (r.Read())
@@ -203,12 +208,8 @@ namespace AccSamse._1._2.Controllers
                         }
                     }
                 }
-                return null;
             }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
-            }
+            return null;
         }
     }
 }

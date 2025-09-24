@@ -16,43 +16,62 @@ namespace AccSamse._1._2.Views
     public partial class MenuForm : Form
     {
         private readonly SalesController _sales = new SalesController();
+        private User currentUser;
 
-        public MenuForm()
+        public MenuForm(User u)
         {
             InitializeComponent();
             this.Load += MenuForm_Load;
             this.dataGridViewSaleMenuForm.CellContentClick += dataGridViewSaleMenuForm_CellContentClick;
+            currentUser = u;
         }
+
 
         private void buttonEntrySale_Click(object sender, EventArgs e)
         {
-            SaleForm form = new SaleForm();
+            SaleForm form = new SaleForm(currentUser, null);
             form.Show();
             this.Hide();
         }
 
         private void buttonEntryInventory_Click(object sender, EventArgs e)
         {
-            InventoryForm form = new InventoryForm();
+            InventoryForm form = new InventoryForm(currentUser);
             form.Show();
             this.Hide();
         }
 
         private void buttonEntryAdministration_Click(object sender, EventArgs e)
         {
-            AdminForm form = new AdminForm();
+            AdminForm form = new AdminForm(currentUser);
             form.Show();
             this.Hide();
         }
 
         private void groupBoxMenu_Enter(object sender, EventArgs e)
         {
-
+            
         }
 
         private void MenuForm_Load(object sender, EventArgs e)
         {
             CargarVentas(); // primero cargamos los datos
+            // luego configuramos la vista
+            textBoxRoleUserMenuForm.Text = currentUser.Role;
+            textBoxNameUserMenuForm.Text = currentUser.Name + " " + currentUser.Last_Name;
+
+            // 🔹 Mostrar/ocultar botones según el rol del usuario
+            if (currentUser.Role != null && currentUser.Role.ToLower() == "admin")
+            {
+                buttonEntrySale.Visible = true;
+                buttonEntryInventory.Visible = true;
+                buttonEntryAdministration.Visible = true;
+            }
+            else
+            {
+                // Si NO es admin, ocultamos administración
+                buttonEntryAdministration.Visible = false;
+            }
 
             if (dataGridViewSaleMenuForm.Columns["Editar"] == null)
             {
@@ -123,6 +142,7 @@ namespace AccSamse._1._2.Views
 
                 using (SqlConnection conn = ConexionDataBase.GetConnection())
                 {
+                    conn.Open();
                     // Primero eliminamos los detalles
                     SqlCommand cmdDetalles = new SqlCommand("DELETE FROM SaleDetails WHERE id_Sale = @id", conn);
                     cmdDetalles.Parameters.AddWithValue("@id", idVenta);
@@ -143,7 +163,7 @@ namespace AccSamse._1._2.Views
                 int idVenta = Convert.ToInt32(dataGridViewSaleMenuForm.Rows[e.RowIndex].Cells["Id_Sale"].Value);
 
                 // abrir SaleForm pasando el IdVenta
-                SaleForm form = new SaleForm(idVenta);
+                SaleForm form = new SaleForm(currentUser, idVenta);
                 form.Show();
                 this.Hide();
             }
@@ -153,6 +173,13 @@ namespace AccSamse._1._2.Views
         private void dateTimePickerDateMenu_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonOffSytem_Click(object sender, EventArgs e)
+        {
+            InitForm form = new InitForm();
+            form.Show();
+            this.Hide();
         }
     }
 }

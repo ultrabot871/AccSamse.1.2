@@ -16,16 +16,18 @@ namespace AccSamse._1._2.Views
     public partial class InventoryForm : Form
     {
         private readonly ProductsController _products = new ProductsController();
+        private User currentUser;
 
-        public InventoryForm()
+        public InventoryForm(User u)
         {
             InitializeComponent();
             this.Load += MenuForm_Load;
+            currentUser = u;
         }
 
         private void buttonExitInventory_Click(object sender, EventArgs e)
         {
-            MenuForm form = new MenuForm();
+            MenuForm form = new MenuForm(currentUser);
             form.Show();
             this.Hide();
         }

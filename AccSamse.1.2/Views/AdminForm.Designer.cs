@@ -34,8 +34,6 @@
             this.GestionClient = new System.Windows.Forms.GroupBox();
             this.GestorClient = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
-            this.grpReports = new System.Windows.Forms.GroupBox();
-            this.btnGenerateAdvanced = new System.Windows.Forms.Button();
             this.grpInventory = new System.Windows.Forms.GroupBox();
             this.btnUpdateInventory = new System.Windows.Forms.Button();
             this.grpList = new System.Windows.Forms.GroupBox();
@@ -63,7 +61,6 @@
             this.SearchEmployeers = new System.Windows.Forms.Label();
             this.ADMIN.SuspendLayout();
             this.GestionClient.SuspendLayout();
-            this.grpReports.SuspendLayout();
             this.grpInventory.SuspendLayout();
             this.grpList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAdmin)).BeginInit();
@@ -76,7 +73,6 @@
             this.ADMIN.Controls.Add(this.button2);
             this.ADMIN.Controls.Add(this.GestionClient);
             this.ADMIN.Controls.Add(this.btnExit);
-            this.ADMIN.Controls.Add(this.grpReports);
             this.ADMIN.Controls.Add(this.grpInventory);
             this.ADMIN.Controls.Add(this.grpList);
             this.ADMIN.Controls.Add(this.btnEdit);
@@ -142,31 +138,7 @@
             this.btnExit.TabIndex = 8;
             this.btnExit.Text = "EXIT";
             this.btnExit.UseVisualStyleBackColor = false;
-            // 
-            // grpReports
-            // 
-            this.grpReports.Controls.Add(this.btnGenerateAdvanced);
-            this.grpReports.Location = new System.Drawing.Point(755, 410);
-            this.grpReports.Margin = new System.Windows.Forms.Padding(2);
-            this.grpReports.Name = "grpReports";
-            this.grpReports.Padding = new System.Windows.Forms.Padding(2);
-            this.grpReports.Size = new System.Drawing.Size(299, 110);
-            this.grpReports.TabIndex = 7;
-            this.grpReports.TabStop = false;
-            this.grpReports.Text = "Reports";
-            // 
-            // btnGenerateAdvanced
-            // 
-            this.btnGenerateAdvanced.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.btnGenerateAdvanced.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGenerateAdvanced.Location = new System.Drawing.Point(27, 34);
-            this.btnGenerateAdvanced.Margin = new System.Windows.Forms.Padding(2);
-            this.btnGenerateAdvanced.Name = "btnGenerateAdvanced";
-            this.btnGenerateAdvanced.Size = new System.Drawing.Size(241, 42);
-            this.btnGenerateAdvanced.TabIndex = 11;
-            this.btnGenerateAdvanced.Text = "Generate Advanced";
-            this.btnGenerateAdvanced.UseVisualStyleBackColor = false;
-            this.btnGenerateAdvanced.Click += new System.EventHandler(this.btnGenerateAdvanced_Click);
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // grpInventory
             // 
@@ -474,7 +446,6 @@
             this.Text = "AdminForm";
             this.ADMIN.ResumeLayout(false);
             this.GestionClient.ResumeLayout(false);
-            this.grpReports.ResumeLayout(false);
             this.grpInventory.ResumeLayout(false);
             this.grpList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAdmin)).EndInit();
@@ -490,8 +461,6 @@
         private System.Windows.Forms.GroupBox GestionClient;
         private System.Windows.Forms.Button GestorClient;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.GroupBox grpReports;
-        private System.Windows.Forms.Button btnGenerateAdvanced;
         private System.Windows.Forms.GroupBox grpInventory;
         private System.Windows.Forms.Button btnUpdateInventory;
         private System.Windows.Forms.GroupBox grpList;

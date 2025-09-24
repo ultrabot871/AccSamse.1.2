@@ -6,30 +6,16 @@ namespace AccSamse._1._2.Models
 {
     public static class ConexionDataBase
     {
-        // Conexión estática global
-        private static SqlConnection _conexion;
-
         // Cadena de conexión
         private static readonly string cadenaConexion =
               "Data Source=KEXXX\\SQLEXPRESS;" +
               "Initial Catalog=AccSamseDbss.1.2;" +
               "Integrated Security=True";
 
-
-        // Método global para obtener la conexión
+        // Método global para obtener la conexión (NO la abre)
         public static SqlConnection GetConnection()
         {
-            SqlConnection conexion = new SqlConnection(cadenaConexion);
-            conexion.Open();
-            return conexion;
-        }
-
-        // Método global para cerrar conexión
-        public static void CloseConnection()
-        {
-            if (_conexion != null && _conexion.State == 
-                System.Data.ConnectionState.Open)
-                _conexion.Close();
+            return new SqlConnection(cadenaConexion);
         }
     }
 }

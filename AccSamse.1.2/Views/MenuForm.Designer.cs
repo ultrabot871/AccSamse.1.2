@@ -161,6 +161,7 @@
             this.buttonOffSytem.TabIndex = 2;
             this.buttonOffSytem.Text = "Off System";
             this.buttonOffSytem.UseVisualStyleBackColor = true;
+            this.buttonOffSytem.Click += new System.EventHandler(this.buttonOffSytem_Click);
             // 
             // buttonEntryInventory
             // 

@@ -18,37 +18,39 @@ namespace AccSamse._1._2.Views
     {
         // Controller para usuarios
         private readonly UsersController _users = new UsersController();
+        private User currentUser;
 
-        public AdminForm()
+        public AdminForm(User u)
         {
             InitializeComponent();
             gridAdmin.AutoGenerateColumns = true;
+            currentUser = u;
         }
 
         private void ADMIN_Enter(object sender, EventArgs e)
         {
             // probar conexión
             SqlConnection conn = ConexionDataBase.GetConnection();
-            ConexionDataBase.CloseConnection();
+            
         }
 
         private void GestorClient_Click(object sender, EventArgs e)
         {
-            GestionClientForm form = new GestionClientForm();
+            GestionClientForm form = new GestionClientForm(currentUser);
             form.Show();
             this.Hide();
         }
 
         private void btnUpdateInventory_Click(object sender, EventArgs e)
         {
-            Inventory form = new Inventory();
+            Inventory form = new Inventory(currentUser);
             form.Show();
             this.Hide();
         }
 
         private void btnGenerateAdvanced_Click(object sender, EventArgs e)
         {
-            Reports form = new Reports();
+            Reports form = new Reports(currentUser);
             form.Show();
             this.Hide();
         }
@@ -74,7 +76,7 @@ namespace AccSamse._1._2.Views
                 string doc = idempleado.Text.Trim();
                 if (!System.Text.RegularExpressions.Regex.IsMatch(doc, @"^\d+$"))
                 {
-                    MessageBox.Show("Document debe contener solo números (0-9).");
+                    MessageBox.Show("Documento debe contener solo números (0-9).");
                     idempleado.Focus();
                     return;
                 }
@@ -85,9 +87,29 @@ namespace AccSamse._1._2.Views
                 u.Email = EmailEmpleado.Text;
                 u.Document = idempleado.Text;
                 u.Phone = PhoneEmpleado.Text;
-                u.Role = RoleUser.Text;
+                u.Role = RoleUser.Text.Trim();
                 u.Password = PasswordEmployeers.Text;
                 u.State = "Activo";
+
+                // 🔹 Validar que no se creen múltiples administradores
+                string roleCheck = u.Role.ToLower();
+                if (roleCheck == "admin" || roleCheck == "administrador")
+                {
+                    using (SqlConnection conn = ConexionDataBase.GetConnection())
+                    {
+                        conn.Open();
+                        string checkSql = "SELECT COUNT(*) FROM dbo.usuarios WHERE LOWER(role) IN ('admin','administrador')";
+                        using (SqlCommand checkCmd = new SqlCommand(checkSql, conn))
+                        {
+                            int count = (int)checkCmd.ExecuteScalar();
+                            if (count > 0)
+                            {
+                                MessageBox.Show("❌ Solo se permite un administrador en el sistema.");
+                                return;
+                            }
+                        }
+                    }
+                }
 
                 bool ok = _users.Create(u);
                 MessageBox.Show(ok ? "✅ Usuario agregado" : "❌ No se pudo agregar");
@@ -253,6 +275,13 @@ namespace AccSamse._1._2.Views
         private void grpManageArea_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            MenuForm form = new MenuForm(currentUser);
+            form.Show();
+            this.Hide();
         }
     }
 }

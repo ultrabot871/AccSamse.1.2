@@ -24,11 +24,13 @@ namespace AccSamse._1._2.Views
         private DataTable _detalleVenta;
         private int? _idSale;
         private int _idPayment;
+        private User currentUser;
 
-        public SaleForm(int? idVenta = null)
+        public SaleForm(User u,int? idVenta = null)
         {
             InitializeComponent();
             _idSale = idVenta;
+            currentUser = u;
         }
 
         private void groupBoxProduct_Enter(object sender, EventArgs e)
@@ -114,81 +116,96 @@ namespace AccSamse._1._2.Views
 
         private void CargarVenta(int idSale)
         {
-            using (SqlConnection conn = ConexionDataBase.GetConnection())
+            try
             {
-
-
-                // 🔹 Encabezado de la venta
-                string queryVenta = @"
-                 SELECT 
-                     s.id_Sale,
-                     s.id_payment,
-                     s.date, 
-                     s.total, 
-                     c.id_Client, 
-                     c.name AS Client, 
-                     u.id_person,
-                     u.name AS usuarios,
-                     p.Amount,
-                     p.Payment_Method AS PaymentMethod
-                 FROM Sales s
-                 INNER JOIN Client c ON s.id_Client = c.id_Client
-                 INNER JOIN usuarios u ON s.id_person = u.id_person
-                 INNER JOIN Payments p ON s.id_payment = p.id_payment
-                 WHERE s.id_Sale = @id";
-
-               
-
-                SqlCommand cmdVenta = new SqlCommand(queryVenta, conn);
-                cmdVenta.Parameters.AddWithValue("@id", idSale);
-
-                SqlDataReader reader = cmdVenta.ExecuteReader();    
-                if (reader.Read())
+                using (SqlConnection conn = ConexionDataBase.GetConnection())
                 {
-                    _idPayment = Convert.ToInt32(reader["id_payment"]); // variable de clase
-                    BuscarClientSale.Text = reader["id_Client"].ToString();
-                    BuscarSallerSale.Text = reader["id_person"].ToString();
-                    NameClientSale.Text = reader["Client"].ToString();
-                    NameSallerSale.Text = reader["usuarios"].ToString();
-                    textBoxSaleNo.Text = "S-" + reader["id_Sale"].ToString().PadLeft(6, '0');
-                    dateTimePickerDateSale.Value = Convert.ToDateTime(reader["date"]);
-                    textBoxTotalSale.Text = "Total: $" + Convert.ToDecimal(reader["total"]).ToString("N2");
-                    comboBoxPaymentMethod.Text = reader["PaymentMethod"].ToString();
-                    textBoxAmountPayment.Text = reader["Amount"].ToString();
-                }
-                reader.Close();
+                    conn.Open(); // 🔹 Abrimos la conexión
 
-                // Cargar detalle desde BD
-                string queryDetalle = @"
-                 SELECT 
-                     p.id_product AS Code,
-                     p.name AS Product,
-                     d.Amount AS Stock,
-                     d.unit_Price AS Price,
-                     (d.Amount * d.unit_Price) AS Subtotal
-                 FROM SaleDetails d
-                 INNER JOIN Products p ON d.id_Product = p.id_product
-                 WHERE d.id_Sale = @id";
+                    // 1️⃣ Encabezado de la venta
+                       string queryVenta = @"
+                        SELECT 
+                            s.id_Sale,
+                            s.id_payment,
+                            s.date, 
+                            s.total, 
+                            c.id_Client, 
+                            c.name AS Client,
+                            c.document AS documentClient,
+                            u.id_person,
+                            u.name AS usuarios,
+                            u.document AS documentUser,
+                            p.Amount,
+                            p.Payment_Method AS PaymentMethod
+                        FROM Sales s
+                        INNER JOIN Client c ON s.id_Client = c.id_Client
+                        INNER JOIN usuarios u ON s.id_person = u.id_person
+                        INNER JOIN Payments p ON s.id_payment = p.id_payment
+                        WHERE s.id_Sale = @id";
 
-                using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conn))
-                {
-                    cmdDetalle.Parameters.AddWithValue("@id", idSale);
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmdDetalle);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    // 🔹 Siempre usar _detalleVenta
-                    _detalleVenta.Clear();
-                    foreach (DataRow r in dt.Rows)
+                    using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conn))
                     {
-                        _detalleVenta.ImportRow(r);
+                        cmdVenta.Parameters.AddWithValue("@id", idSale);
+
+                        using (SqlDataReader reader = cmdVenta.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                _idPayment = Convert.ToInt32(reader["id_payment"]);
+                                BuscarClientSale.Text = reader["documentClient"].ToString();
+                                BuscarSallerSale.Text = reader["documentUser"].ToString();
+                                NameClientSale.Text = reader["Client"].ToString();
+                                NameSallerSale.Text = reader["usuarios"].ToString();
+                                textBoxSaleNo.Text = "S-" + reader["id_Sale"].ToString().PadLeft(6, '0');
+                                dateTimePickerDateSale.Value = Convert.ToDateTime(reader["date"]);
+                                textBoxTotalSale.Text = "Total: $" + Convert.ToDecimal(reader["total"]).ToString("N2");
+                                comboBoxPaymentMethod.Text = reader["PaymentMethod"].ToString();
+                                textBoxAmountPayment.Text = reader["Amount"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("⚠ No se encontró la venta.");
+                                return;
+                            }
+                        }
                     }
 
-                    dataGridViewProducts.DataSource = _detalleVenta;
+                    // 2️⃣ Detalle de la venta
+                      string queryDetalle = @"
+                        SELECT 
+                            p.id_product AS Code,
+                            p.name AS Product,
+                            d.Amount AS Stock,
+                            d.unit_Price AS Price,
+                            (d.Amount * d.unit_Price) AS Subtotal
+                        FROM SaleDetails d
+                        INNER JOIN Products p ON d.id_Product = p.id_product
+                        WHERE d.id_Sale = @id";
+
+                    using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conn))
+                    {
+                        cmdDetalle.Parameters.AddWithValue("@id", idSale);
+
+                        DataTable dtDetalle = new DataTable();
+                        SqlDataAdapter da = new SqlDataAdapter(cmdDetalle);
+                        da.Fill(dtDetalle); // llena dtDetalle
+
+                        // 3️⃣ Llenar _detalleVenta
+                        _detalleVenta.Clear();
+                        foreach (DataRow r in dtDetalle.Rows)
+                            _detalleVenta.ImportRow(r);
+
+                        dataGridViewProducts.DataSource = _detalleVenta;
+
+                        // 4️⃣ Bloquear columnas y recalcular total
+                        BloquearColumnas();
+                        CalcularTotal();
+                    }
                 }
-
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar venta: " + ex.Message);
             }
         }
 
@@ -233,6 +250,7 @@ namespace AccSamse._1._2.Views
 
                 using (SqlConnection conn = ConexionDataBase.GetConnection())
                 {
+                    conn.Open();
                     string sql = "SELECT id_product, name, stock, price FROM dbo.Products WHERE id_product=@id";
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
@@ -344,6 +362,21 @@ namespace AccSamse._1._2.Views
         {
             try
             {
+                int documentUser = int.Parse(BuscarSallerSale.Text);
+                int documentClient = int.Parse(BuscarClientSale.Text);
+                User user = _users.GetByIdWhithDoc(documentUser);
+                if (user == null)
+                {
+                    MessageBox.Show("⚠ Vendedor no encontrado con el documento: " + documentUser);
+                    return; // ❌ Sale del método
+                }
+
+                Client client = _clients.GetByIdWhithDoc(documentClient);
+                if (client == null)
+                {
+                    MessageBox.Show("⚠ Cliente no encontrado con el documento: " + documentClient);
+                    return; // ❌ Sale del método
+                }
                 // 🔹 1. Validar monto ingresado vs total
                 decimal total = Convert.ToDecimal(textBoxTotalSale.Text.Replace("Total: $", "").Trim());
                 decimal montoPago = decimal.Parse(textBoxAmountPayment.Text);
@@ -356,7 +389,7 @@ namespace AccSamse._1._2.Views
 
                 if (_idSale.HasValue) // ✅ Estamos EDITANDO
                 {
-                    // 1. Actualizar pago
+                    // Actualizar pago
                     Payment p = new Payment
                     {
                         Id_Payment = _idPayment,
@@ -366,12 +399,13 @@ namespace AccSamse._1._2.Views
                     };
                     _payments.Update(p);
 
+
                     // 2. Actualizar venta
                     Sale s = new Sale
                     {
                         Id_Sale = _idSale.Value,
-                        Id_Person = int.Parse(BuscarSallerSale.Text),
-                        Id_Client = int.Parse(BuscarClientSale.Text),
+                        Id_Person = user.Id_person,
+                        Id_Client = client.Id_person,
                         Id_Payment = p.Id_Payment,
                         Date = dateTimePickerDateSale.Value,
                         Total = Convert.ToDouble(textBoxTotalSale.Text.Replace("Total: $", "")),
@@ -379,24 +413,46 @@ namespace AccSamse._1._2.Views
                     };
                     _sales.Update(s);
 
-                    // 3. Borrar detalles antiguos
+                    // 🔹 3. Restaurar stock de los detalles antiguos
+                    var oldDetails = _saleDetails.GetBySaleId(_idSale.Value);
+                    foreach (var old in oldDetails)
+                    {
+                        _products.RestoreStock(old.Id_Product, old.Amount); // Método que suma la cantidad al stock
+                    }
+
+                    // 4. Borrar detalles antiguos
                     _saleDetails.DeleteBySaleId(_idSale.Value);
 
-                    // 4. Insertar los nuevos detalles
+                    // 5. Insertar los nuevos detalles
                     foreach (DataGridViewRow row in dataGridViewProducts.Rows)
                     {
                         if (row.IsNewRow) continue;
 
+                        int productId = Convert.ToInt32(row.Cells["Code"].Value);
+                        int amountSold = Convert.ToInt32(row.Cells["Stock"].Value);
+                        decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+                        decimal subtotal = Convert.ToDecimal(row.Cells["Subtotal"].Value);
+
+                        // Validar stock antes de crear detalle
+                        if (_products.GetById(productId).Stock < amountSold)
+                        {
+                            MessageBox.Show($"⚠ No hay suficiente stock para el producto {productId}");
+                            return;
+                        }
+
+                        // Crear detalle
                         SaleDetails sd = new SaleDetails
                         {
                             Id_Sale = _idSale.Value,
-                            Id_Product = Convert.ToInt32(row.Cells["Code"].Value),
-                            Amount = Convert.ToInt32(row.Cells["Stock"].Value),
-                            Unit_Price = Convert.ToDecimal(row.Cells["Price"].Value),
-                            Subtotal = Convert.ToDecimal(row.Cells["Subtotal"].Value)
+                            Id_Product = productId,
+                            Amount = amountSold,
+                            Unit_Price = unitPrice,
+                            Subtotal = subtotal
                         };
-
                         _saleDetails.Create(sd);
+
+                        // Restar stock
+                        _products.UpdateStock(productId, amountSold);
                     }
 
                     MessageBox.Show("✅ Venta actualizada correctamente");
@@ -415,8 +471,8 @@ namespace AccSamse._1._2.Views
                     // Crear venta
                     Sale s = new Sale
                     {
-                        Id_Person = int.Parse(BuscarSallerSale.Text),
-                        Id_Client = int.Parse(BuscarClientSale.Text),
+                        Id_Person = user.Id_person,
+                        Id_Client = client.Id_person,
                         Id_Payment = paymentId,
                         Date = dateTimePickerDateSale.Value,
                         Total = Convert.ToDouble(textBoxTotalSale.Text.Replace("Total: $", "")),
@@ -429,23 +485,37 @@ namespace AccSamse._1._2.Views
                     {
                         if (row.IsNewRow) continue;
 
+                        int productId = Convert.ToInt32(row.Cells["Code"].Value);
+                        int amountSold = Convert.ToInt32(row.Cells["Stock"].Value);
+
+                        // 🔹 Validar stock antes de crear detalle
+                        var product = _products.GetById(productId);
+                        if (product.Stock < amountSold)
+                        {
+                            MessageBox.Show($"⚠ No hay suficiente stock para el producto {productId}");
+                            return; // ❌ Sale del método si no hay stock suficiente
+                        }
+
                         SaleDetails sd = new SaleDetails
                         {
                             Id_Sale = saleId,
-                            Id_Product = Convert.ToInt32(row.Cells["Code"].Value),
-                            Amount = Convert.ToInt32(row.Cells["Stock"].Value),
+                            Id_Product = productId,
+                            Amount = amountSold,
                             Unit_Price = Convert.ToDecimal(row.Cells["Price"].Value),
                             Subtotal = Convert.ToDecimal(row.Cells["Subtotal"].Value)
                         };
 
                         _saleDetails.Create(sd);
+
+                        // 🔹 Restar el stock del producto
+                        _products.UpdateStock(productId, amountSold);
                     }
 
                     MessageBox.Show("✅ Venta registrada correctamente");
                 }
 
                 // Al final volver al menú
-                MenuForm form = new MenuForm();
+                MenuForm form = new MenuForm(currentUser);
                 form.Show();
                 this.Hide();
             }
@@ -462,7 +532,7 @@ namespace AccSamse._1._2.Views
 
         private void button4_Click(object sender, EventArgs e)
         {
-            MenuForm form = new MenuForm();
+            MenuForm form = new MenuForm(currentUser);
             form.Show();
             this.Hide();
         }

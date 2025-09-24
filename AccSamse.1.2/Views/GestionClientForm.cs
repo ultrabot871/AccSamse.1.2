@@ -16,10 +16,12 @@ namespace AccSamse._1._2.Views
     {
         // Controller para clientes
         private readonly ClientsController _clients = new ClientsController();
+        private User currentUser;
 
-        public GestionClientForm()
+        public GestionClientForm(User u)
         {
             InitializeComponent();
+            currentUser = u;
         }
 
         private void grpManageArea_Enter(object sender, EventArgs e)
@@ -29,7 +31,7 @@ namespace AccSamse._1._2.Views
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            AdminForm form = new AdminForm();
+            AdminForm form = new AdminForm(currentUser);
             form.Show();
             this.Hide();
         }

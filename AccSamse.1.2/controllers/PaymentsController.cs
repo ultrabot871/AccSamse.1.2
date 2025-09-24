@@ -10,15 +10,17 @@ namespace AccSamse._1._2.Controllers
 {
     internal class PaymentsController
     {
+        // ===== CREATE =====
         public int Create(Payment p)
         {
             using (SqlConnection conn = ConexionDataBase.GetConnection())
-            try
             {
+                conn.Open(); // Aseguramos abrir la conexión
+
                 string sql =
-                        "INSERT INTO dbo.Payments (Amount, Payment_Method, Payment_Date) " +
-                        "VALUES (@amount, @method, @date); " +
-                        "SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    "INSERT INTO dbo.Payments (Amount, Payment_Method, Payment_Date) " +
+                    "VALUES (@amount, @method, @date); " +
+                    "SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -26,13 +28,9 @@ namespace AccSamse._1._2.Controllers
                     cmd.Parameters.AddWithValue("@method", p.Payment_Method);
                     cmd.Parameters.AddWithValue("@date", p.Payment_Date);
 
-                    int newId = (int)cmd.ExecuteScalar();  // retorna el id
+                    int newId = (int)cmd.ExecuteScalar();
                     return newId;
                 }
-            }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
             }
         }
 
@@ -40,6 +38,7 @@ namespace AccSamse._1._2.Controllers
         {
             using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql = @"
                  UPDATE Payments
                  SET Amount = @Amount,
@@ -65,6 +64,7 @@ namespace AccSamse._1._2.Controllers
 
             using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql = @"
                  SELECT id_payment, amount, payment_method, payment_date
                  FROM dbo.Payments

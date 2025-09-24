@@ -18,31 +18,47 @@ namespace AccSamse._1._2.Controllers
 
         private static User Map(SqlDataReader r)
         {
-            User u = new User();
-            u.Id_person = Convert.ToInt32(r["id_person"]);
-            u.Name = ToStr(r["name"]);
-            u.Last_Name = ToStr(r["last_Name"]);
-            u.Email = ToStr(r["email"]);
-            u.Document = ToStr(r["document"]);
-            u.Phone = ToStr(r["phone"]);
-            u.Role = ToStr(r["role"]);
-            u.Password = ToStr(r["password"]);
-            u.State = ToStr(r["state"]);
-            return u;
+            return new User
+            {
+                Id_person = Convert.ToInt32(r["id_person"]),
+                Name = ToStr(r["name"]),
+                Last_Name = ToStr(r["last_Name"]),
+                Email = ToStr(r["email"]),
+                Document = ToStr(r["document"]),
+                Phone = ToStr(r["phone"]),
+                Role = ToStr(r["role"]),
+                Password = ToStr(r["password"]),
+                State = ToStr(r["state"])
+            };
         }
 
         // ===== CREATE =====
         public bool Create(User u)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-            try
+            string roleLower = u.Role.ToLower();
+
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
+                // Verificamos si ya existe un admin o administrador
+                if (roleLower == "admin" || roleLower == "administrador")
+                {
+                    string checkSql = "SELECT COUNT(*) FROM dbo.usuarios WHERE LOWER(role) = @role";
+                    using (SqlCommand checkCmd = new SqlCommand(checkSql, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@role", roleLower);
+                        int count = (int)checkCmd.ExecuteScalar();
+                        if (count > 0)
+                        {
+                            return false; // ya existe un admin
+                        }
+                    }
+                }
+
                 string sql =
                     "INSERT INTO dbo.usuarios " +
-                    "(name, last_Name, email, document, " +
-                    "phone, role, [password], [state]) " +
-                    "VALUES (@name, @last, @mail, @doc, " +
-                    "@phone, @role, @pwd, @state)";
+                    "(name, last_Name, email, document, phone, role, [password], [state]) " +
+                    "VALUES (@name, @last, @mail, @doc, @phone, @role, @pwd, @state)";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -52,61 +68,50 @@ namespace AccSamse._1._2.Controllers
                     cmd.Parameters.AddWithValue("@doc", u.Document);
                     cmd.Parameters.AddWithValue("@phone", (object)u.Phone ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@role", u.Role);
-                    cmd.Parameters.AddWithValue("@pwd", u.Password); 
+                    cmd.Parameters.AddWithValue("@pwd", u.Password);
                     cmd.Parameters.AddWithValue("@state", u.State);
 
                     int rows = cmd.ExecuteNonQuery();
                     return rows > 0;
                 }
             }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
-            }
         }
 
         // ===== READ ALL =====
         public List<User> GetAll()
         {
-            List<User> list = new List<User>();
-            SqlConnection conn = ConexionDataBase.GetConnection();
+            var list = new List<User>();
 
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
                     "SELECT id_person, name, last_Name, email, " +
                     "document, phone, role, [password], [state] " +
                     "FROM dbo.usuarios";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
+                using (SqlDataReader r = cmd.ExecuteReader())
                 {
-                    using (SqlDataReader r = cmd.ExecuteReader())
+                    while (r.Read())
                     {
-                        while (r.Read())
-                        {
-                            list.Add(Map(r));
-                        }
+                        list.Add(Map(r));
                     }
                 }
-            }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
             }
 
             return list;
         }
 
-        // ===== READ BY ID =====
+        // ===== READ BY ID (ojo: usas document, no id_person) =====
         public User GetById(int id)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
-                    "SELECT id_person, name, last_Name, " +
-                    "email, document, phone, role, [password], [state] " +
+                    "SELECT id_person, name, last_Name, email, " +
+                    "document, phone, role, [password], [state] " +
                     "FROM dbo.usuarios WHERE document=@doc";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -121,21 +126,46 @@ namespace AccSamse._1._2.Controllers
                         }
                     }
                 }
-                return null;
             }
-            finally
+
+            return null;
+        }
+
+        public User GetByIdWhithDoc(int doc)
+        {
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
-                ConexionDataBase.CloseConnection();
+                conn.Open();
+                string sql =
+                    "SELECT id_person, name, last_Name, email, " +
+                    "document, phone, role, [password], [state] " +
+                    "FROM dbo.usuarios WHERE document=@doc";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@doc", doc);
+
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            // Aquí usamos tu Map y retornamos directamente
+                            return Map(r);
+                        }
+                    }
+                }
             }
+
+            // Si no se encuentra ningún usuario
+            return null;
         }
 
         // ===== UPDATE =====
         public bool Update(User u)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
                     "UPDATE dbo.usuarios SET " +
                     "name=@name, last_Name=@last, email=@mail, document=@doc, " +
@@ -144,7 +174,6 @@ namespace AccSamse._1._2.Controllers
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@id", u.Id_person);
                     cmd.Parameters.AddWithValue("@name", u.Name);
                     cmd.Parameters.AddWithValue("@last", u.Last_Name);
                     cmd.Parameters.AddWithValue("@mail", u.Email);
@@ -158,19 +187,14 @@ namespace AccSamse._1._2.Controllers
                     return rows > 0;
                 }
             }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
-            }
         }
 
         // ===== DELETE =====
         public bool Delete(int id)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql = "DELETE FROM dbo.usuarios WHERE document=@doc";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -180,19 +204,14 @@ namespace AccSamse._1._2.Controllers
                     return rows > 0;
                 }
             }
-            finally
-            {
-                ConexionDataBase.CloseConnection();
-            }
         }
 
         // ===== READ BY EMAIL =====
         public User GetByEmail(string email)
         {
-            SqlConnection conn = ConexionDataBase.GetConnection();
-
-            try
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
+                conn.Open();
                 string sql =
                     "SELECT id_person, name, last_Name, email, " +
                     "document, phone, role, [password], [state] " +
@@ -210,12 +229,39 @@ namespace AccSamse._1._2.Controllers
                         }
                     }
                 }
-                return null;
             }
-            finally
+
+            return null;
+        }
+
+        // ===== LOGIN =====
+        public User Login(string email, string password)
+        {
+            using (SqlConnection conn = ConexionDataBase.GetConnection())
             {
-                ConexionDataBase.CloseConnection();
+                conn.Open(); // 👈 NECESARIO ABRIR LA CONEXIÓN
+
+                string sql =
+                    "SELECT id_person, name, last_Name, email, " +
+                    "document, phone, role, [password], [state] " +
+                    "FROM dbo.usuarios WHERE email=@mail AND [password]=@pwd";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@mail", email);
+                    cmd.Parameters.AddWithValue("@pwd", password);
+
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            return Map(r);
+                        }
+                    }
+                }
             }
+
+            return null;
         }
 
     }
